@@ -1,0 +1,172 @@
+{
+  "importance": {
+    "sample_size": 100,
+    "value_groups": {
+      "response": [
+        [
+          "Not relevant"
+        ],
+        [
+          "Beneficial"
+        ],
+        [
+          "Important"
+        ],
+        [
+          "Essential"
+        ]
+      ],
+      "pid3": [
+        [
+          "Democrat"
+        ],
+        [
+          "Independent",
+          "Other"
+        ],
+        [
+          "Republican"
+        ]
+      ]
+    },
+    "layouts": [
+      {
+        "breakpoint": "small",
+        "screenWidthRange": [
+          0,
+          768
+        ],
+        "vizWidth": 300,
+        "waveHeight": 90,
+        "pointRadius": 3,
+        "responseGap": 10,
+        "partyGap": 14,
+        "labelHeight": 30
+      },
+      {
+        "breakpoint": "medium",
+        "screenWidthRange": [
+          760,
+          1030
+        ],
+        "vizWidth": 640,
+        "waveHeight": 90,
+        "pointRadius": 4,
+        "responseGap": 12,
+        "partyGap": 16,
+        "labelHeight": 30
+      },
+      {
+        "breakpoint": "large",
+        "screenWidthRange": [
+          1024,
+          1440
+        ],
+        "vizWidth": 900,
+        "waveHeight": 90,
+        "pointRadius": 4,
+        "responseGap": 12,
+        "partyGap": 24,
+        "labelHeight": 30
+      },
+      {
+        "breakpoint": "xLarge",
+        "screenWidthRange": [
+          1440,
+          5000
+        ],
+        "vizWidth": 900,
+        "waveHeight": 90,
+        "pointRadius": 4,
+        "responseGap": 12,
+        "partyGap": 24,
+        "labelHeight": 30
+      }
+    ]
+  },
+  "performance": {
+    "sample-size": 100,
+    "value-groups": {
+      "response": [
+        [
+          "Does not meet"
+        ],
+        [
+          "Party meets"
+        ],
+        [
+          "Mostly meets"
+        ],
+        [
+          "Fully meets"
+        ]
+      ],
+      "pid3": [
+        [
+          "Democrat"
+        ],
+        [
+          "Independent",
+          "Other"
+        ],
+        [
+          "Republican"
+        ]
+      ]
+    },
+    "layouts": [
+      {
+        "breakpoint": "small",
+        "screenWidthRange": [
+          0,
+          768
+        ],
+        "vizWidth": 300,
+        "waveHeight": 90,
+        "pointRadius": 3,
+        "responseGap": 10,
+        "partyGap": 14,
+        "labelHeight": 30
+      },
+      {
+        "breakpoint": "medium",
+        "screenWidthRange": [
+          760,
+          1030
+        ],
+        "vizWidth": 640,
+        "waveHeight": 90,
+        "pointRadius": 4,
+        "responseGap": 12,
+        "partyGap": 16,
+        "labelHeight": 30
+      },
+      {
+        "breakpoint": "large",
+        "screenWidthRange": [
+          1024,
+          1440
+        ],
+        "vizWidth": 900,
+        "waveHeight": 90,
+        "pointRadius": 4,
+        "responseGap": 12,
+        "partyGap": 24,
+        "labelHeight": 30
+      },
+      {
+        "breakpoint": "xLarge",
+        "screenWidthRange": [
+          1440,
+          5000
+        ],
+        "vizWidth": 900,
+        "waveHeight": 90,
+        "pointRadius": 4,
+        "responseGap": 12,
+        "partyGap": 24,
+        "labelHeight": 30
+      }
+    ]
+  }
+}
