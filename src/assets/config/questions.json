@@ -1,0 +1,166 @@
+{
+  "prefix_performance": "How well do the following statements describe the United States as of today?",
+  "prefix_importance": "How important are these characteristics for democratic government?",
+  "prompts": [
+    {
+      "variable_name": "ban_ideology",
+      "question_text": "Parties and candidates are not barred due to their political beliefs and ideologies.",
+      "short_text": "Parties/candidates not barred for beliefs and ideologies."
+    },
+    {
+      "variable_name": "candidates_disclose",
+      "question_text": "Citizens have access to information about candidates that is relevant to how they would govern.",
+      "short_text": "Citizens have access to relevant info about candidates."
+    },
+    {
+      "variable_name": "common_und",
+      "question_text": "Even when there are disagreements about ideology or policy, political leaders generally share a common understanding of relevant facts.",
+      "short_text": "Political leaders share a common understanding of facts."
+    },
+    {
+      "variable_name": "compromise",
+      "question_text": "Elected officials seek compromise with political opponents.",
+      "short_text": "Elected officials seek compromise with opponents."
+    },
+    {
+      "variable_name": "concede_defeat",
+      "question_text": "Politicians who lose free and fair elections will concede defeat.",
+      "short_text": "Politicians who lose free and fair elections concede."
+    },
+    {
+      "variable_name": "contributions",
+      "question_text": "Public policy is not determined by large campaign contributions.",
+      "short_text": "Policy not determined by campaign contributions."
+    },
+    {
+      "variable_name": "districts",
+      "question_text": "The geographic boundaries of electoral districts do not systematically advantage any particular political party.",
+      "short_text": "District boundaries do not advantage any party."
+    },
+    {
+      "variable_name": "election_fraud",
+      "question_text": "Elections are conducted, ballots counted, and winners determined without pervasive fraud or manipulation.",
+      "short_text": "Elections are free of fraud."
+    },
+    {
+      "variable_name": "equal_enforce",
+      "question_text": "The law is enforced equally for all persons.",
+      "short_text": "The law is enforced equally for all."
+    },
+    {
+      "variable_name": "equal_rights",
+      "question_text": "All adult citizens enjoy the same legal and political rights.",
+      "short_text": "All citizens enjoy the same rights."
+    },
+    {
+      "variable_name": "expand_executive",
+      "question_text": "Executive authority cannot be expanded beyond constitutional limits.",
+      "short_text": "Executive authority not expanded beyond constitituional limits."
+    },
+    {
+      "variable_name": "foreign_influence",
+      "question_text": "Elections are free from foreign influence.",
+      "short_text": "Elections are free from foreign influence."
+    },
+    {
+      "variable_name": "free_speech",
+      "question_text": "Government protects individuals' right to engage in unpopular speech or expression.",
+      "short_text": "Government protects individuals' right to unpopular speech."
+    },
+    {
+      "variable_name": "funds_transparent",
+      "question_text": "Information about the sources of campaign funding is available to the public.",
+      "short_text": "Information about the sources of campaign funding is available."
+    },
+    {
+      "variable_name": "gov_stats",
+      "question_text": "Government statistics and data are produced by experts who are not influenced by political considerations.",
+      "short_text": "Goverment statistics and data not influenced by politics."
+    },
+    {
+      "variable_name": "investigations",
+      "question_text": "Law enforcement investigations of public officials or their associates are free from political influence or interference.",
+      "short_text": "Legal investigations of public official free from political influence."
+    },
+    {
+      "variable_name": "journalists",
+      "question_text": "Government does not interfere with journalists or news organizations.",
+      "short_text": "Government does not interfere with the media."
+    },
+    {
+      "variable_name": "judicial_ind",
+      "question_text": "The elected branches respect judicial independence.",
+      "short_text": "Elected branches respect judicial independence."
+    },
+    {
+      "variable_name": "judiciary_check",
+      "question_text": "The judiciary is able to effectively limit executive power.",
+      "short_text": "Judiciary can limit executive power."
+    },
+    {
+      "variable_name": "legislature_check",
+      "question_text": "The legislature is able to effectively limit executive power.",
+      "short_text": "Legislature can limit executive power."
+    },
+    {
+      "variable_name": "misconduct",
+      "question_text": "Government officials are legally sanctioned for misconduct.",
+      "short_text": "Officials legally sanctioned for misconduct"
+    },
+    {
+      "variable_name": "monitor_opponents",
+      "question_text": "Government agencies are not used to monitor, attack, or punish political opponents.",
+      "short_text": "Agencies not used to attack political opponents."
+    },
+    {
+      "variable_name": "opinions",
+      "question_text": "Citizens can make their opinions heard in open debate about policies that are under consideration.",
+      "short_text": "Citizens can make their opinions heard."
+    },
+    {
+      "variable_name": "participation",
+      "question_text": "Voter participation in elections is generally high.",
+      "short_text": "Voter participation is high."
+    },
+    {
+      "variable_name": "patriotism",
+      "question_text": "Political competition occurs without criticism of opponents' loyalty or patriotism.",
+      "short_text": "Political competitions occurs without criticism of loyalty/patriotism."
+    },
+    {
+      "variable_name": "private_gain",
+      "question_text": "Government officials do not use public office for private gain.",
+      "short_text": "Officials do not use public office for private gain."
+    },
+    {
+      "variable_name": "private_violence",
+      "question_text": "Government effectively prevents private actors from engaging in politically-motivated violence or intimidation.",
+      "short_text": "Private actors prevented from political violence/intimidation."
+    },
+    {
+      "variable_name": "protest",
+      "question_text": "Government protects individuals' right to engage in peaceful protest.",
+      "short_text": "Government protects individuals' right to protest"
+    },
+    {
+      "variable_name": "restraint",
+      "question_text": "In the elected branches, majorities act with restraint and reciprocity.",
+      "short_text": "Elected majorities act with restraint and reciprocity."
+    },
+    {
+      "variable_name": "science",
+      "question_text": "Government leaders recognize the validity of bureaucratic or scientific consensus.",
+      "short_text": "Leaders recognize validity of bureaucratic and scientific consensus."
+    },
+    {
+      "variable_name": "votes_impact",
+      "question_text": "All votes have equal impact on election outcomes.",
+      "short_text": "All votes have equal impact."
+    },
+    {
+      "variable_name": "voting_rights",
+      "question_text": "All adult citizens have equal opportunity to vote.",
+      "short_text": "All citizens have equal opportunity to vote."
+    }
+  ]
+}
