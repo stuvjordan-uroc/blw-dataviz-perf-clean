@@ -3,28 +3,10 @@
   "prefix_importance": "How important are these characteristics for democratic government?",
   "prompts": [
     {
-      "variable_name": "ban_ideology",
-      "question_text": "Parties and candidates are not barred due to their political beliefs and ideologies.",
-      "short_text": "Parties/candidates not barred for beliefs and ideologies.",
-      "category": "Political and civil rights"
-    },
-    {
       "variable_name": "candidates_disclose",
       "question_text": "Citizens have access to information about candidates that is relevant to how they would govern.",
       "short_text": "Citizens have access to relevant info about candidates.",
       "category": "Electoral competition and political accountability"
-    },
-    {
-      "variable_name": "common_und",
-      "question_text": "Even when there are disagreements about ideology or policy, political leaders generally share a common understanding of relevant facts.",
-      "short_text": "Political leaders share a common understanding of facts.",
-      "category": "Public discourse"
-    },
-    {
-      "variable_name": "compromise",
-      "question_text": "Elected officials seek compromise with political opponents.",
-      "short_text": "Elected officials seek compromise with opponents.",
-      "category": "Public discourse"
     },
     {
       "variable_name": "concede_defeat",
@@ -51,34 +33,10 @@
       "category": "Electoral competition and political accountability"
     },
     {
-      "variable_name": "equal_enforce",
-      "question_text": "The law is enforced equally for all persons.",
-      "short_text": "The law is enforced equally for all.",
-      "category": "Political and civil rights"
-    },
-    {
-      "variable_name": "equal_rights",
-      "question_text": "All adult citizens enjoy the same legal and political rights.",
-      "short_text": "All citizens enjoy the same rights.",
-      "category": "Political and civil rights"
-    },
-    {
-      "variable_name": "expand_executive",
-      "question_text": "Executive authority cannot be expanded beyond constitutional limits.",
-      "short_text": "Executive authority not expanded beyond constitituional limits.",
-      "category": "Executive, legislative, and judicial powers"
-    },
-    {
       "variable_name": "foreign_influence",
       "question_text": "Elections are free from foreign influence.",
       "short_text": "Elections are free from foreign influence.",
       "category": "Electoral competition and political accountability"
-    },
-    {
-      "variable_name": "free_speech",
-      "question_text": "Government protects individuals' right to engage in unpopular speech or expression.",
-      "short_text": "Government protects individuals' right to unpopular speech.",
-      "category": "Political and civil rights"
     },
     {
       "variable_name": "funds_transparent",
@@ -87,22 +45,28 @@
       "category": "Electoral competition and political accountability"
     },
     {
-      "variable_name": "gov_stats",
-      "question_text": "Government statistics and data are produced by experts who are not influenced by political considerations.",
-      "short_text": "Government statistics and data not influenced by politics.",
-      "category": "Role of government agencies in politics"
+      "variable_name": "participation",
+      "question_text": "Voter participation in elections is generally high.",
+      "short_text": "Voter participation is high.",
+      "category": "Electoral competition and political accountability"
     },
     {
-      "variable_name": "investigations",
-      "question_text": "Law enforcement investigations of public officials or their associates are free from political influence or interference.",
-      "short_text": "Legal investigations of public officials free from political influence.",
-      "category": "Role of military and law enforcement in politics"
+      "variable_name": "votes_impact",
+      "question_text": "All votes have equal impact on election outcomes.",
+      "short_text": "All votes have equal impact.",
+      "category": "Electoral competition and political accountability"
     },
     {
-      "variable_name": "journalists",
-      "question_text": "Government does not interfere with journalists or news organizations.",
-      "short_text": "Government does not interfere with the media.",
-      "category": "Government influence on media, business, and other private organizations"
+      "variable_name": "voting_rights",
+      "question_text": "All adult citizens have equal opportunity to vote.",
+      "short_text": "All citizens have equal opportunity to vote.",
+      "category": "Electoral competition and political accountability"
+    },
+    {
+      "variable_name": "expand_executive",
+      "question_text": "Executive authority cannot be expanded beyond constitutional limits.",
+      "short_text": "Executive authority not expanded beyond constitituional limits.",
+      "category": "Executive, legislative, and judicial powers"
     },
     {
       "variable_name": "judicial_ind",
@@ -129,34 +93,52 @@
       "category": "Executive, legislative, and judicial powers"
     },
     {
-      "variable_name": "monitor_opponents",
-      "question_text": "Government agencies are not used to monitor, attack, or punish political opponents.",
-      "short_text": "Agencies not used to attack political opponents.",
-      "category": "Role of government agencies in politics"
-    },
-    {
-      "variable_name": "opinions",
-      "question_text": "Citizens can make their opinions heard in open debate about policies that are under consideration.",
-      "short_text": "Citizens can make their opinions heard.",
-      "category": "Public discourse"
-    },
-    {
-      "variable_name": "participation",
-      "question_text": "Voter participation in elections is generally high.",
-      "short_text": "Voter participation is high.",
-      "category": "Electoral competition and political accountability"
-    },
-    {
-      "variable_name": "patriotism",
-      "question_text": "Political competition occurs without criticism of opponents' loyalty or patriotism.",
-      "short_text": "Political competitions occurs without criticism of loyalty/patriotism.",
-      "category": "Public discourse"
-    },
-    {
       "variable_name": "private_gain",
       "question_text": "Government officials do not use public office for private gain.",
       "short_text": "Officials do not use public office for private gain.",
       "category": "Executive, legislative, and judicial powers"
+    },
+    {
+      "variable_name": "restraint",
+      "question_text": "In the elected branches, majorities act with restraint and reciprocity.",
+      "short_text": "Elected majorities act with restraint and reciprocity.",
+      "category": "Executive, legislative, and judicial powers"
+    },
+    {
+      "variable_name": "journalists",
+      "question_text": "Government does not interfere with journalists or news organizations.",
+      "short_text": "Government does not interfere with the media.",
+      "category": "Government influence on media, business, and other private organizations"
+    },
+    {
+      "variable_name": "org_pressure",
+      "question_text": "Universities, businesses, and professional organizations operate independently of government pressure.",
+      "short_text": "Businesses and organizations operate independently of government pressure.",
+      "category": "Government influence on media, business, and other private organizations"
+    },
+    {
+      "variable_name": "ban_ideology",
+      "question_text": "Parties and candidates are not barred due to their political beliefs and ideologies.",
+      "short_text": "Parties/candidates not barred for beliefs and ideologies.",
+      "category": "Political and civil rights"
+    },
+    {
+      "variable_name": "equal_enforce",
+      "question_text": "The law is enforced equally for all persons.",
+      "short_text": "The law is enforced equally for all.",
+      "category": "Political and civil rights"
+    },
+    {
+      "variable_name": "equal_rights",
+      "question_text": "All adult citizens enjoy the same legal and political rights.",
+      "short_text": "All citizens enjoy the same rights.",
+      "category": "Political and civil rights"
+    },
+    {
+      "variable_name": "free_speech",
+      "question_text": "Government protects individuals' right to engage in unpopular speech or expression.",
+      "short_text": "Government protects individuals' right to unpopular speech.",
+      "category": "Political and civil rights"
     },
     {
       "variable_name": "private_violence",
@@ -171,10 +153,28 @@
       "category": "Political and civil rights"
     },
     {
-      "variable_name": "restraint",
-      "question_text": "In the elected branches, majorities act with restraint and reciprocity.",
-      "short_text": "Elected majorities act with restraint and reciprocity.",
-      "category": "Executive, legislative, and judicial powers"
+      "variable_name": "common_und",
+      "question_text": "Even when there are disagreements about ideology or policy, political leaders generally share a common understanding of relevant facts.",
+      "short_text": "Political leaders share a common understanding of facts.",
+      "category": "Public discourse"
+    },
+    {
+      "variable_name": "compromise",
+      "question_text": "Elected officials seek compromise with political opponents.",
+      "short_text": "Elected officials seek compromise with opponents.",
+      "category": "Public discourse"
+    },
+    {
+      "variable_name": "opinions",
+      "question_text": "Citizens can make their opinions heard in open debate about policies that are under consideration.",
+      "short_text": "Citizens can make their opinions heard.",
+      "category": "Public discourse"
+    },
+    {
+      "variable_name": "patriotism",
+      "question_text": "Political competition occurs without criticism of opponents' loyalty or patriotism.",
+      "short_text": "Political competitions occurs without criticism of loyalty/patriotism.",
+      "category": "Public discourse"
     },
     {
       "variable_name": "science",
@@ -183,22 +183,22 @@
       "category": "Public discourse"
     },
     {
-      "variable_name": "votes_impact",
-      "question_text": "All votes have equal impact on election outcomes.",
-      "short_text": "All votes have equal impact.",
-      "category": "Electoral competition and political accountability"
+      "variable_name": "gov_stats",
+      "question_text": "Government statistics and data are produced by experts who are not influenced by political considerations.",
+      "short_text": "Government statistics and data not influenced by politics.",
+      "category": "Role of government agencies in politics"
     },
     {
-      "variable_name": "voting_rights",
-      "question_text": "All adult citizens have equal opportunity to vote.",
-      "short_text": "All citizens have equal opportunity to vote.",
-      "category": "Electoral competition and political accountability"
+      "variable_name": "monitor_opponents",
+      "question_text": "Government agencies are not used to monitor, attack, or punish political opponents.",
+      "short_text": "Agencies not used to attack political opponents.",
+      "category": "Role of government agencies in politics"
     },
     {
-      "variable_name": "org_pressure",
-      "question_text": "Universities, businesses, and professional organizations operate independently of government pressure.",
-      "short_text": "Businesses and organizations operate independently of government pressure.",
-      "category": "Government influence on media, business, and other private organizations"
+      "variable_name": "investigations",
+      "question_text": "Law enforcement investigations of public officials or their associates are free from political influence or interference.",
+      "short_text": "Legal investigations of public officials free from political influence.",
+      "category": "Role of military and law enforcement in politics"
     },
     {
       "variable_name": "military_neutral",
