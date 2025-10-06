@@ -1,4 +1,3 @@
-import { number } from "zod";
 
 export interface Question {
   question_text: string;
@@ -10,7 +9,7 @@ export interface Questions {
   prefix_performance: string;
   prompts: Question[];
 }
-export interface ImpPerfLayout {
+export interface Layout {
   breakpoint: string;
   screenWidthRange: [number, number];
   vizWidth: number;
@@ -21,20 +20,7 @@ export interface ImpPerfLayout {
   labelHeight: number;
 }
 export interface VizConfig {
-  importance: {
-    sample_size: number;
-    value_groups: {
-      response: string[][];
-      pid3: string[][];
-    };
-    layouts: ImpPerfLayout[];
-  };
-  performance: {
-    sample_size: number;
-    value_groups: {
-      response: string[][];
-      pid3: string[][];
-    };
-    layouts: ImpPerfLayout[];
-  };
-}
+  sample_size: number;
+  layouts: Layout[];
+};
+
