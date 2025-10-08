@@ -3,8 +3,8 @@ export interface Response {
   proportion: number;
 }
 export interface Split {
-  wave: number | null;
-  party: string[] | null;
+  wave: { index: number, value: number } | null;
+  party: { index: number, value: string[] } | null;
   responses: {
     expanded: Response[],
     collapsed: Response[],
