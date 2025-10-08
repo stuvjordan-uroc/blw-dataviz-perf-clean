@@ -2,16 +2,19 @@ export interface Response {
   response: string[];
   proportion: number;
 }
-export interface Group {
+export interface Split {
   wave: number | null;
   party: string[] | null;
-  responses: Response[] | null;
+  responses: {
+    expanded: Response[],
+    collapsed: Response[],
+  } | null;
 }
 export interface Characteristic {
   characteristic_name: string;
   col_idx: number;
   in_waves: number[];
-  groups: Group[];
+  splits: Split[];
 }
 export interface GroupVars {
   pid3: {

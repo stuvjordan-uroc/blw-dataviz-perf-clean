@@ -8,8 +8,8 @@ import vz from "../../assets/config/viz-config.json";
 const vizConfig = vz as VizConfig
 //load the metadata
 import type { Meta } from "../../assets/raw-data/meta-types";
-import pm from "../../assets/raw-data/meta_perf.json";
-import pi from "../../assets/raw-data/meta_imp.json";
+import pm from "../../assets/raw-data/meta-perf.json";
+import pi from "../../assets/raw-data/meta-imp.json";
 const metaPerf = pm as Meta;
 const metaImp = pi as Meta;
 
