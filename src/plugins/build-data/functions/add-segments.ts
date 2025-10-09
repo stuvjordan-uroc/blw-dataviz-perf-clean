@@ -2,8 +2,9 @@ import type { Layout } from "../../../assets/config/config-types";
 import type { Response } from "../../../assets/raw-data/meta-types";
 import type { PointPosition } from "./point-positions";
 import { pointPositions } from "./point-positions";
+import type { SplitWithCount } from "./add-counts";
 
-interface Segment {
+export interface Segment {
   topLeftY: number,
   topLeftX: number,
   height: number,
@@ -71,29 +72,60 @@ function segments(
   return responses as ResponseWithSegment[]
 }
 
-
-
-export function addSegments(
+export interface SplitWithSegments {
   wave: { index: number, value: number } | null,
   party: { index: number, value: string[] } | null,
-  responses: (Response & { count: number })[],
+  segments: null | {
+    expanded: ResponseWithSegment[],
+    collapsed: ResponseWithSegment[]
+  }
+}
+
+export function addSegments(
+  split: SplitWithCount,
   layout: Layout,
-  numWaves: number,
-  partyResponseGroups: string[][]
-): ResponseWithSegment[] {
-  const group = segmentGroup(
-    wave,
-    party,
-    responses.length,
+  partyResponseGroups: string[][],
+  numWaves: number
+): SplitWithSegments {
+  if (split.responses === null) {
+    return ({
+      wave: split.wave,
+      party: split.party,
+      segments: null
+    })
+  }
+  const sgExpanded = segmentGroup(
+    split.wave,
+    split.party,
+    split.responses.expanded.length,
     layout,
     numWaves,
     partyResponseGroups.length
   )
-  const responsesWithSegments = segments(
-    responses,
-    group,
-    layout.responseGap,
-    layout.pointRadius
+  const sgCollapsed = segmentGroup(
+    split.wave,
+    split.party,
+    split.responses.collapsed.length,
+    layout,
+    numWaves,
+    partyResponseGroups.length
   )
-  return responsesWithSegments
+  return ({
+    wave: split.wave,
+    party: split.party,
+    segments: {
+      expanded: segments(
+        split.responses.expanded,
+        sgExpanded,
+        layout.responseGap,
+        layout.pointRadius
+      ),
+      collapsed: segments(
+        split.responses.collapsed,
+        sgCollapsed,
+        layout.responseGap,
+        layout.pointRadius
+      )
+    }
+  })
 }

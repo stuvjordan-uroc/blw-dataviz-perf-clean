@@ -1,27 +1,62 @@
-import type { Response } from "../../../assets/raw-data/meta-types";
+import { sample } from "lodash";
+import type { Response, Split } from "../../../assets/raw-data/meta-types";
 //Note: This function mutates the objects in the 
 //responses array that you pass to it!
-export function addCounts(
+function addCountsToResponses(
   responses: Response[],
   sampleSize: number
 ): (Response & { count: number })[] {
   type WithCounts = Response & { count: number, floatCount: number }
   //add the floatCount and count to each response object.
-  responses.forEach((response) => {
+  const withCounts: WithCounts[] = responses.map((response) => {
     const floatCount = response.proportion * sampleSize;
-    (response as WithCounts).floatCount = floatCount;
-    (response as WithCounts).count = Math.floor(floatCount);
+    return ({
+      ...response,
+      floatCount: floatCount,
+      count: Math.floor(floatCount)
+    })
   })
   //adjust the counts upward until we get to the sample size
-  while (responses.reduce((acc: number, curr) => acc + (curr as WithCounts).count, 0) < sampleSize) {
-    const farthest = (responses as WithCounts[]).reduce(((acc: WithCounts, curr: WithCounts) =>
+  while (withCounts.reduce((acc: number, curr) => acc + curr.count, 0) < sampleSize) {
+    const farthest = withCounts.reduce(((acc: WithCounts, curr: WithCounts) =>
       (acc.floatCount - acc.count > curr.floatCount - curr.count) ? acc : curr
     ))
     farthest.count = farthest.count + 1
   }
+  //ready to return
   //remove the float counts
-  (responses as WithCounts[]).forEach((response) => {
-    delete (response as Response & { count: number, floatCount?: number }).floatCount
+  withCounts.forEach((withCount) => {
+    delete (withCount as (Response & { count: number, floatCount?: number })).floatCount
   })
-  return responses as (Response & { count: number })[]
+  return withCounts as (Response & { count: number })[]
+}
+
+export interface SplitWithCount {
+  wave: { index: number, value: number } | null,
+  party: { index: number, value: string[] } | null,
+  responses: null | {
+    expanded: (Response & { count: number })[],
+    collapsed: (Response & { count: number })[]
+  }
+}
+
+function numPointsInSplit(split: Split, sampleSize: number, numPartyGroups: number, numWaves: number): number {
+  return sampleSize * ((split.wave === null) ? numWaves : 1) * ((split.party === null) ? numPartyGroups : 1)
+}
+
+export function addCounts(split: Split, sampleSize: number, numPartyGroups: number, numWaves: number): SplitWithCount {
+  if (split.responses === null) {
+    return ({
+      ...split,
+      responses: null
+    })
+  }
+  const numPoints = numPointsInSplit(split, sampleSize, numPartyGroups, numWaves);
+  return ({
+    ...split,
+    responses: {
+      expanded: addCountsToResponses(split.responses.expanded, numPoints),
+      collapsed: addCountsToResponses(split.responses.collapsed, numPoints)
+    }
+  })
 }
