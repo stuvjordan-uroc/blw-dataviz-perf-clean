@@ -45,11 +45,6 @@ interface SplitData {
   }
 }
 
-interface CharData {
-  charName: string,
-  inWaves: [number, string][],
-  layouts: Record<string, SplitData>
-}
 
 
 function runtimeData(
@@ -58,7 +53,7 @@ function runtimeData(
   charFileNames: string[],
   vizConfig: VizConfig,
   outdir: string
-) {
+): void {
 
   charFileNames.forEach((cfn) => {
     // Read the contents of the file with name cfn from the zip archive at charZip
