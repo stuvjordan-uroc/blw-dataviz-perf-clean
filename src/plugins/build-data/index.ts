@@ -8,13 +8,32 @@ import pm from "../../assets/raw-data/meta-perf.json";
 import pi from "../../assets/raw-data/meta-imp.json";
 const metaPerf = pm as Meta;
 const metaImp = pi as Meta;
+
+// Decompress zip archives and create arrays with file names
+const rawDataPath = path.join(process.cwd(), 'src/assets/raw-data');
+const zipFiles = ['characteristics-imp.zip', 'characteristics-perf.zip'];
+
+const characteristicFileNames: Record<string, string[]> = {};
+
+// Extract file names from zip archives without loading content into memory
+import { getZipFileNames } from "./functions/get-zip-file-names";
+import fs from 'node:fs'
+import path from 'node:path'
+zipFiles.forEach(zipFileName => {
+  const zipPath = path.join(rawDataPath, zipFileName);
+  const zipData = fs.readFileSync(zipPath);
+
+  // Extract file names without decompressing content
+  const fileNames = getZipFileNames(zipData);
+  characteristicFileNames[zipFileName] = fileNames;
+});
+
 //load the addCounts, addSegments, and pointPositions functions, along with some types we need
 import { addCounts } from "./functions/add-counts";
 import { addSegments } from "./functions/add-segments";
 import type { SplitWithSegments } from "./functions/add-segments";
 import { pointPositions, type PointPosition } from "./functions/point-positions";
-//node:fs so we can write the runtime data to the public folder.
-import fs from 'node:fs'
+
 
 interface SplitData {
   splits: SplitWithSegments[],

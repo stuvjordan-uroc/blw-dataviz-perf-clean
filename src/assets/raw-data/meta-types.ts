@@ -16,7 +16,14 @@ export interface Characteristic {
   in_waves: number[];
   splits: Split[];
 }
-export interface GroupVars {
+export interface Meta {
+  response: {
+    vals: string[];
+    response_groups: {
+      expanded: string[][];
+      collapsed: string[][];
+    }
+  };
   pid3: {
     col_idx: number;
     vals: string[];
@@ -31,15 +38,3 @@ export interface GroupVars {
     col_idx: number;
   };
 }
-export interface PerfOrImp {
-  characteristics: Characteristic[];
-  vals: string[];
-  response_groups: {
-    expanded: string[][];
-    collapsed: string[][];
-  }
-}
-
-export type Meta = {
-  response: PerfOrImp;
-} & GroupVars
