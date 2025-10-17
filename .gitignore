@@ -15,6 +15,22 @@ dist-ssr
 # Ignore all contents of public directory
 public/*
 
+# Data and downloads
+downloads/
+
+# Environment variables and secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*
+!.env.example
+
+# AWS credentials (additional protection)
+.aws/
+aws-credentials.*
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

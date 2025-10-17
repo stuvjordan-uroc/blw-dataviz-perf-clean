@@ -4,7 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "setup-dev": "./scripts/setup-dev.sh",
     "build-data": "tsx --max-old-space-size=8192 scripts/build-data.js",
+    "fetch-data": "node scripts/fetch-data.js",
+    "fetch-data:force": "node scripts/fetch-data.js --force",
+    "fetch-data:list": "node scripts/fetch-data.js --list",
     "dev": "node --max-old-space-size=4096 ./node_modules/.bin/vite",
     "dev:with-data": "npm run build-data && npm run dev",
     "build": "npm run build-data && tsc -b && vite build",
@@ -14,6 +18,7 @@
   "dependencies": {
     "@vitejs/plugin-legacy": "^7.2.1",
     "@vitejs/plugin-react": "^5.0.4",
+    "dotenv": "^17.2.3",
     "fflate": "^0.8.2",
     "lodash": "^4.17.21",
     "react": "^19.1.1",

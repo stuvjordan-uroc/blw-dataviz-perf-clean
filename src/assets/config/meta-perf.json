@@ -1,0 +1,141 @@
+{
+  "response": {
+    "vals": [
+      "Fully meets",
+      "",
+      "Does not meet",
+      "Mostly meets",
+      "Partly meets",
+      "Not sure"
+    ],
+    "response_groups": {
+      "expanded": [
+        [
+          "Does not meet"
+        ],
+        [
+          "Partly meets"
+        ],
+        [
+          "Mostly meets"
+        ],
+        [
+          "Fully meets"
+        ]
+      ],
+      "collapsed": [
+        [
+          "Does not meet",
+          "Partly meets"
+        ],
+        [
+          "Mostly meets",
+          "Fully meets"
+        ]
+      ]
+    }
+  },
+  "pid3": {
+    "col_idx": 33,
+    "vals": [
+      "Democrat",
+      "Republican",
+      "Independent",
+      "Other",
+      "Not sure",
+      ""
+    ],
+    "response_groups": [
+      [
+        "Democrat",
+        [
+          "Democrat"
+        ]
+      ],
+      [
+        "Independent or Other",
+        [
+          "Independent",
+          "Other"
+        ]
+      ],
+      [
+        "Republican",
+        [
+          "Republican"
+        ]
+      ]
+    ]
+  },
+  "wave": {
+    "col_idx": 35,
+    "vals": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "response_groups": [
+      [
+        "Trump 2017-2020",
+        [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ]
+      ],
+      [
+        "Biden 2021-2024",
+        [
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ]
+      ],
+      [
+        "Trump 2025",
+        [
+          24,
+          25,
+          26
+        ]
+      ]
+    ]
+  },
+  "weight": {
+    "col_idx": 1
+  }
+}
