@@ -36,8 +36,13 @@ npm run dev
 │   │   │   ├── small
 │   │   │   └── xLarge
 │   │   └── [29 more characteristics...]
-│   └── perf/                  # Performance characteristics data
-│       └── [~30 characteristics with same structure]
+│   ├── perf/                  # Performance characteristics data
+│   │   └── [~30 characteristics with same structure]
+│   └── generated-points/      # Generated PNG circles for visualization (auto-generated)
+│       ├── small/             # 16 circles at 3px radius
+│       ├── medium/            # 16 circles at 4px radius
+│       ├── large/             # 16 circles at 4px radius
+│       └── xLarge/            # 16 circles at 4px radius
 ├── src/
 │   ├── assets/
 │   │   └── config/
@@ -47,20 +52,22 @@ npm run dev
 ├── scripts/
 │   ├── setup-dev.sh          # One-time development environment setup
 │   ├── fetch-data.js          # S3 data fetching script
+│   ├── generate-png-points.js # PNG circle generation for data visualization
 │   └── setup-aws-sso.sh      # AWS authentication setup
 └── downloads/                 # Download metadata (not in git)
 ```
 
 ## 🛠️ Development Commands
 
-| Command                    | Description                                                   |
-| -------------------------- | ------------------------------------------------------------- |
-| `npm run setup-dev`        | **First-time setup** - Run this when you first clone the repo |
-| `npm run dev`              | Start development server                                      |
-| `npm run fetch-data`       | Re-download data files from S3 (when data updates)            |
-| `npm run fetch-data:force` | Force re-download all files (ignore cache)                    |
-| `npm run build`            | Build for production                                          |
-| `npm run lint`             | Run ESLint                                                    |
+| Command                       | Description                                                   |
+| ----------------------------- | ------------------------------------------------------------- |
+| `npm run setup-dev`           | **First-time setup** - Run this when you first clone the repo |
+| `npm run dev`                 | Start development server                                      |
+| `npm run generate-png-points` | Generate PNG circles for data visualization points            |
+| `npm run fetch-data`          | Re-download data files from S3 (when data updates)            |
+| `npm run fetch-data:force`    | Force re-download all files (ignore cache)                    |
+| `npm run build`               | Build for production                                          |
+| `npm run lint`                | Run ESLint                                                    |
 
 ## 🔐 AWS Configuration
 
@@ -97,6 +104,63 @@ aws sso login --profile default
 - **Data stays local** - once downloaded, works offline
 - **Caching enabled** - re-running fetch-data only downloads changed files
 - **13MB total** - reasonable size for development
+
+## 🎨 PNG Point Generation
+
+The project includes automated PNG generation for data visualization points using the Canvas API.
+
+### What Gets Generated
+
+**64 PNG circles total** across 4 responsive breakpoints:
+
+- **Small** (3px radius): 16 circles
+- **Medium** (4px radius): 16 circles
+- **Large** (4px radius): 16 circles
+- **xLarge** (4px radius): 16 circles
+
+**Each breakpoint includes 16 circles with political party colors:**
+
+- **4 Goldenrod** (brand): shades 700, 500, 300, 100
+- **4 Republican** (red): shades 700, 500, 300, 100
+- **4 Democrat** (blue): shades 700, 500, 300, 100
+- **4 Independent** (purple): shades 700, 500, 300, 100
+
+### File Organization
+
+```
+public/generated-points/
+├── small/     # circle-{party}-{shade}-r3.png
+├── medium/    # circle-{party}-{shade}-r4.png
+├── large/     # circle-{party}-{shade}-r4.png
+└── xLarge/    # circle-{party}-{shade}-r4.png
+```
+
+**Examples:**
+
+- `circle-republican-500-r3.png` - Republican base color, 3px radius
+- `circle-democrat-700-r4.png` - Democrat dark shade, 4px radius
+- `circle-goldenrod-100-r4.png` - Goldenrod light shade, 4px radius
+
+### Usage
+
+```bash
+npm run generate-png-points
+```
+
+**Run this when:**
+
+- Setting up development environment
+- Colors change in `src/index.css`
+- Layout configurations change in `src/assets/config/viz-config.json`
+- PNG assets need regeneration
+
+### Technical Details
+
+- **Canvas-based generation** - No browser dependency
+- **Anti-aliasing enabled** - Smooth, high-quality circles
+- **Transparent backgrounds** - Ready for overlay
+- **Responsive sizing** - Matches breakpoint configurations
+- **Color accuracy** - Exact HSL values from CSS custom properties
 
 ## 🔧 Troubleshooting
 

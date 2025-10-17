@@ -1,0 +1,69 @@
+:root {
+  /* colors */
+
+  --blw-goldenrod100: hsl(55, 74%, 88%);
+  --blw-goldenrod200: hsl(55, 74%, 78%);
+  --blw-goldenrod300: hsl(55, 74%, 68%);
+  --blw-goldenrod400: hsl(55, 74%, 58%);
+  --blw-goldenrod500: hsl(55, 74%, 48%);
+  --blw-goldenrod600: hsl(55, 74%, 38%);
+  --blw-goldenrod700: hsl(55, 74%, 28%);
+  --blw-goldenrod800: hsl(55, 74%, 18%);
+  --blw-goldenrod900: hsl(55, 74%, 8%);
+
+  --blw-republican100: hsl(355, 75%, 88%);
+  --blw-republican200: hsl(355, 75%, 78%);
+  --blw-republican300: hsl(355, 75%, 68%);
+  --blw-republican400: hsl(355, 75%, 58%);
+  --blw-republican500: hsl(355, 75%, 50%);
+  --blw-republican600: hsl(355, 75%, 40%);
+  --blw-republican700: hsl(355, 75%, 30%);
+  --blw-republican800: hsl(355, 75%, 20%);
+  --blw-republican900: hsl(355, 75%, 10%);
+
+  --blw-democrat100: hsl(220, 75%, 88%);
+  --blw-democrat200: hsl(220, 75%, 78%);
+  --blw-democrat300: hsl(220, 75%, 68%);
+  --blw-democrat400: hsl(220, 75%, 58%);
+  --blw-democrat500: hsl(220, 75%, 50%);
+  --blw-democrat600: hsl(220, 75%, 40%);
+  --blw-democrat700: hsl(220, 75%, 30%);
+  --blw-democrat800: hsl(220, 75%, 20%);
+  --blw-democrat900: hsl(220, 75%, 10%);
+
+  --blw-independent100: hsl(270, 75%, 88%);
+  --blw-independent200: hsl(270, 75%, 78%);
+  --blw-independent300: hsl(270, 75%, 68%);
+  --blw-independent400: hsl(270, 75%, 58%);
+  --blw-independent500: hsl(270, 75%, 50%);
+  --blw-independent600: hsl(270, 75%, 40%);
+  --blw-independent700: hsl(270, 75%, 30%);
+  --blw-independent800: hsl(270, 75%, 20%);
+  --blw-independent900: hsl(270, 75%, 10%);
+
+  --blw-gray000: hsl(0, 0%, 98%);
+  --blw-gray100: hsl(192, 7%, 94%);
+  --blw-gray200: hsl(192, 7%, 90%);
+  --blw-gray300: hsl(192, 7%, 86%);
+  --blw-gray400: hsl(192, 7%, 82%);
+  --blw-gray500: hsl(192, 7%, 78%);
+  --blw-gray600: hsl(192, 7%, 74%);
+  --blw-gray700: hsl(192, 7%, 70%);
+  --blw-gray800: hsl(192, 7%, 66%);
+  --blw-gray900: hsl(192, 7%, 62%);
+
+  --blw-whale000: hsl(194, 97%, 98%);
+  --blw-whale100: hsl(194, 97%, 90%);
+  --blw-whale200: hsl(194, 97%, 75%);
+  --blw-whale300: hsl(194, 97%, 65%);
+  --blw-whale400: hsl(194, 97%, 60%);
+  --blw-whale500: hsl(194, 97%, 50%);
+  --blw-whale600: hsl(194, 97%, 40%);
+  --blw-whale700: hsl(194, 97%, 30%);
+  --blw-whale800: hsl(194, 97%, 18%);
+  --blw-whale900: hsl(194, 97%, 6%);
+  /* semantic color vars */
+  --color-brand: var(--blw-goldenrod);
+  --blw-whale: var(--blw-whale800);
+  --color-text: var(--blw-whale900);
+}

@@ -6,6 +6,7 @@
   "scripts": {
     "setup-dev": "./scripts/setup-dev.sh",
     "build-data": "tsx --max-old-space-size=8192 scripts/build-data.js",
+    "generate-png-points": "node scripts/generate-png-points.js",
     "fetch-data": "node scripts/fetch-data.js",
     "fetch-data:force": "node scripts/fetch-data.js --force",
     "fetch-data:list": "node scripts/fetch-data.js --list",
@@ -18,6 +19,7 @@
   "dependencies": {
     "@vitejs/plugin-legacy": "^7.2.1",
     "@vitejs/plugin-react": "^5.0.4",
+    "canvas": "^3.2.0",
     "dotenv": "^17.2.3",
     "fflate": "^0.8.2",
     "lodash": "^4.17.21",
