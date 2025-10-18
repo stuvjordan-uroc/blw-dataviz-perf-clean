@@ -129,7 +129,7 @@ interface VizConfig {
   layouts: Layout[];
 }
 
-interface CoordinateData {
+export interface CoordinateData {
   splits: SplitWithSegments[];
   unsplitPositions: PointPositions;
   waves: number[];

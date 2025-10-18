@@ -99,8 +99,10 @@ aws sso login --profile default
 ### What Gets Downloaded
 
 - **Configuration files**: `meta.gz` → decompressed to `src/assets/config/`
-- **Visualization data**: `characteristics/` subfolders → `public/imp/` and `public/perf/`
-- **File format**: Compressed data files optimized for web delivery
+- **Visualization data**: .gz files in `characteristics/` subfolders → `public/imp/` and `public/perf/`
+- **Typescript files**: .ts files describing structure of objects in config and viz files -> src/assets/config
+
+**Note** There is a 'perf' and 'imp' version of each Typescript file. These are identical, so after data is fetched, you can consolidate (for instance) delete one of meta-imp.ts and meta-perf.ts and rename the other to meta.ts.
 
 ### Offline Development
 
