@@ -60,7 +60,7 @@ interface WeightMeta {
   col_idx: number;
 }
 
-interface Meta {
+export interface Meta {
   characteristics: Characteristic[] | null;
   response: ResponseMeta;
   pid3: Pid3Meta;

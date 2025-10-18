@@ -1,12 +1,13 @@
 //css
 import "./VizRoot.css";
 //hooks
-import { useState } from "react";
+import { useState, useRef } from "react";
 //types
 import type { ReactElement } from "react";
 import VizHeader from "./VizHeader";
 import VizControls from "./VizControls";
-import type { VizTab } from "./VizTabSelect";
+import type { VizTab } from "../Viz";
+import VizCanvas from "./VizCanvas";
 
 export type RequestedSplit =
   | {
@@ -36,6 +37,10 @@ export function VizRoot({ vizTab }: { vizTab: VizTab }): ReactElement {
   const [responseExpanded, setResponseExpanded] =
     useState<ResponsesExpanded>("expanded");
 
+  //REF TO CANVAS
+
+  const canvasRef = useRef(null);
+
   return (
     <div className="viz-root">
       <VizHeader vizTab={vizTab} />
@@ -45,6 +50,7 @@ export function VizRoot({ vizTab }: { vizTab: VizTab }): ReactElement {
         responsesExpanded={responseExpanded}
         setResponsesExpanded={setResponseExpanded}
       />
+      <VizCanvas canvasRef={canvasRef} vizTab={vizTab} />
     </div>
   );
 }

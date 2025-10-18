@@ -15,6 +15,8 @@ DONE
 - DONE Define state that tracks which split is requested
 - DONE Define state that tracks whether response groups are expanded or collapsed
 - DONE Rough out component that allows user to pick the split
-- Rough out component that hosts the canvas.
+- DONE Rough out component that hosts the canvas.
+
+## Spinner to indicate data loading state in canvas container
 
 ## All downloaded type defs are in meta.json. Fix data generation and download to get rid of coordinate type files.
