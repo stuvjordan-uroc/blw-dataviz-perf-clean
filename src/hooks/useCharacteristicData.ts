@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { gunzipSync, strFromU8 } from "fflate";
 import type { Breakpoint } from "./useBreakpoint";
+import type { Coordinates } from "../types/splits";
 import vizConfig from "../assets/config/viz-config.json";
 
 // Types for data loading state
@@ -7,8 +9,8 @@ type DataLoadingState = "idle" | "pending" | "ready" | "error";
 
 // Loaded data structure
 interface CharacteristicData {
-  impData: unknown; // JSON data from imp/{characteristic}/{breakpoint}
-  perfData: unknown; // JSON data from perf/{characteristic}/{breakpoint}
+  impData: Coordinates; // JSON data from imp/{characteristic}/{breakpoint}
+  perfData: Coordinates; // JSON data from perf/{characteristic}/{breakpoint}
   images: Record<string, HTMLImageElement>; // PNG images keyed by filename
 }
 
@@ -56,7 +58,7 @@ export const useCharacteristicData = ({
     // Different breakpoints require different data files for the same characteristic
     const loadCharacteristicData = async (): Promise<void> => {
       try {
-        // Load JSON data from both imp and perf folders
+        // Load gzipped JSON data from both imp and perf folders
         const impResponse = await fetch(`/imp/${characteristic}/${breakpoint}`);
         const perfResponse = await fetch(`/perf/${characteristic}/${breakpoint}`);
 
@@ -64,8 +66,17 @@ export const useCharacteristicData = ({
           throw new Error(`Failed to load data files for ${characteristic}/${breakpoint}`);
         }
 
-        const impData = await impResponse.json();
-        const perfData = await perfResponse.json();
+        // Get the compressed data as ArrayBuffer, then decompress with fflate
+        const impArrayBuffer = await impResponse.arrayBuffer();
+        const perfArrayBuffer = await perfResponse.arrayBuffer();
+
+        // Decompress the gzipped data
+        const impDecompressed = gunzipSync(new Uint8Array(impArrayBuffer));
+        const perfDecompressed = gunzipSync(new Uint8Array(perfArrayBuffer));
+
+        // Convert decompressed bytes to string and parse as JSON
+        const impData = JSON.parse(strFromU8(impDecompressed)) as Coordinates;
+        const perfData = JSON.parse(strFromU8(perfDecompressed)) as Coordinates;
 
         // Generate image filenames dynamically from config
         const { parties, shades } = vizConfig.colorConfig;
@@ -101,6 +112,8 @@ export const useCharacteristicData = ({
           error: null,
         });
       } catch (error) {
+        console.error("Data loading error:", error);
+        console.error("Attempted URLs:", `/imp/${characteristic}/${breakpoint}`, `/perf/${characteristic}/${breakpoint}`);
         setDataState({
           state: "error",
           data: null,

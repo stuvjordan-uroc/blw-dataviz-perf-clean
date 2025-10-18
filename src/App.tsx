@@ -11,7 +11,7 @@ function App() {
 
   const current_breakpoint = useBreakpoint();
 
-  const handleCharacteristicSelect = (characteristic: string) => {
+  const handleCharacteristicSelect = (characteristic: string): void => {
     setRequested_characteristic(characteristic);
   };
 
@@ -19,6 +19,7 @@ function App() {
     <>
       <CharacteristicPicker
         onCharacteristicSelect={handleCharacteristicSelect}
+        selectedCharacteristic={requested_characteristic}
       />
       {requested_characteristic !== null && (
         <Viz characteristic={requested_characteristic} />
