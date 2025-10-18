@@ -134,12 +134,56 @@ function listS3Files() {
         log.warn(`No characteristics folder found in ${folder}`);
       }
 
+      // Target 3: meta.ts file in the app folder
+      const metaTSKey = `${folder}/meta.ts`;
+      try {
+        const metaTSCommand = `aws s3 ls s3://${S3_BUCKET}/${metaTSKey} --profile ${AWS_PROFILE}`;
+        const metaTSResult = execSync(metaTSCommand, { encoding: 'utf8' });
+
+        if (metaTSResult.trim()) {
+          const parts = metaTSResult.trim().split(/\s+/);
+          const size = parseInt(parts[2]);
+          allFiles.push({
+            key: metaTSKey,
+            size,
+            date: `${parts[0]} ${parts[1]}`,
+            folder: folder,
+            type: 'metaTS'
+          });
+          log.debug(`Found config file: ${metaTSKey}`);
+        }
+      } catch (error) {
+        log.warn(`No meta.ts found in ${folder}`);
+      }
+
+      // Target 4: coordinate-types.ts file in the app folder
+      const coordinateTSKey = `${folder}/coordinate-types.ts`;
+      try {
+        const coordinateTSCommand = `aws s3 ls s3://${S3_BUCKET}/${coordinateTSKey} --profile ${AWS_PROFILE}`;
+        const coordinateTSResult = execSync(coordinateTSCommand, { encoding: 'utf8' });
+
+        if (coordinateTSResult.trim()) {
+          const parts = coordinateTSResult.trim().split(/\s+/);
+          const size = parseInt(parts[2]);
+          allFiles.push({
+            key: coordinateTSKey,
+            size,
+            date: `${parts[0]} ${parts[1]}`,
+            folder: folder,
+            type: 'coordinatesTS'
+          });
+          log.debug(`Found config file: ${coordinateTSKey}`);
+        }
+      } catch (error) {
+        log.warn(`No coordinate.ts found in ${folder}`);
+      }
+
+
       log.info(`Processed ${folder}/ - targeting specific files only`);
     }
 
     log.success(`Found ${allFiles.length} target files across all folders`);
     return allFiles;
-
   } catch (error) {
     log.error(`Failed to list S3 files: ${error.message}`);
     return [];
@@ -216,6 +260,7 @@ function downloadAndDecompressMeta(s3Key, configPath) {
   }
 }
 
+
 /**
  * Generate a manifest file with download information
  */
@@ -228,6 +273,8 @@ function generateManifest(files, downloadPath) {
     files: files.map(f => {
       if (f.type === 'config') {
         const configName = f.folder.includes('importance') ? 'meta-imp.json' : 'meta-perf.json';
+        const metaTSName = f.folder.includes('importance') ? 'meta-imp.ts' : 'meta-perf.ts';
+        const coordinatesTSName = f.folder.includes('importance') ? 'coordinates-imp.ts' : 'coordinates-perf.ts'
         return {
           key: f.key,
           size: f.size,
@@ -247,6 +294,27 @@ function generateManifest(files, downloadPath) {
           sourceFolder: f.folder,
           localPath: join(process.cwd(), 'public', publicSubdir, relativePath),
           type: 'static'
+        };
+      } else if (f.type === 'metaTS') {
+        const metaTSName = f.folder.includes('importance') ? 'meta-imp.ts' : 'meta-perf.ts';
+        const coordinatesTSName = f.folder.includes('importance') ? 'coordinates-imp.ts' : 'coordinates-perf.ts'
+        return {
+          key: f.key,
+          size: f.size,
+          lastModified: f.date,
+          sourceFolder: f.folder,
+          localPath: join(process.cwd(), 'src', 'assets', 'config', metaTSName),
+          type: 'metaTS'
+        };
+      } else if (f.type === 'coordinatesTS') {
+        const coordinatesTSName = f.folder.includes('importance') ? 'coordinates-imp.ts' : 'coordinates-perf.ts'
+        return {
+          key: f.key,
+          size: f.size,
+          lastModified: f.date,
+          sourceFolder: f.folder,
+          localPath: join(process.cwd(), 'src', 'assets', 'config', coordinatesTSName),
+          type: 'coordinatesTS'
         };
       }
     })
@@ -329,6 +397,34 @@ async function downloadData() {
       if (downloadFile(file.key, publicPath)) {
         downloadCount++;
       }
+    } else if (file.type === 'metaTS') {
+      // Typescript file for meta: meta.ts -> src/assets/config/
+      const configName = file.folder.includes('importance') ? 'meta-imp.ts' : 'meta-perf.ts';
+      const configPath = join(process.cwd(), 'src', 'assets', 'config', configName);
+
+      if (isFileUpToDate(configPath, file.date)) {
+        log.debug(`Skipping ${file.key} (config up to date)`);
+        skipCount++;
+        continue;
+      }
+
+      if (downloadFile(file.key, configPath)) {
+        downloadCount++;
+      }
+    } else if (file.type === 'coordinatesTS') {
+      // Typescript file for meta: coordinate-types.ts -> src/assets/config/
+      const configName = file.folder.includes('importance') ? 'coordinates-imp.ts' : 'coordinates-perf.ts';
+      const configPath = join(process.cwd(), 'src', 'assets', 'config', configName);
+
+      if (isFileUpToDate(configPath, file.date)) {
+        log.debug(`Skipping ${file.key} (config up to date)`);
+        skipCount++;
+        continue;
+      }
+
+      if (downloadFile(file.key, configPath)) {
+        downloadCount++;
+      }
     }
   }
 
@@ -380,6 +476,10 @@ File Organization:
     public/perf/[characteristic]/    <- from democratic-characteristics-performance/app/characteristics
     src/assets/config/meta-imp.json <- from democratic-characteristics-importance/app/meta.gz
     src/assets/config/meta-perf.json <- from democratic-characteristics-performance/app/meta.gz
+    src/assets/config/meta-imp.ts <- from democratic-characteristics-importance/app/meta.ts
+    src/assets/config/meta-perf.json <- from democratic-characteristics-performance/app/meta.ts
+    src/assets/config/coordinates-imp.ts <- from democratic-characteristics-importance/app/coordinate-types.ts
+    src/assets/config/coordinates-perf.json <- from democratic-characteristics-performance/app/coordinate-types.ts
     downloads/manifest.json         <- download metadata
 `);
     return;

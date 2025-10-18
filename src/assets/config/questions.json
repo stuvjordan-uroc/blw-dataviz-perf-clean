@@ -186,43 +186,43 @@
       "variable_name": "gov_stats",
       "question_text": "Government statistics and data are produced by experts who are not influenced by political considerations.",
       "short_text": "Government statistics and data not influenced by politics.",
-      "category": "Role of government agencies in politics"
+      "category": "Role of military, law enforcement, and government agencies in politics"
     },
     {
       "variable_name": "monitor_opponents",
       "question_text": "Government agencies are not used to monitor, attack, or punish political opponents.",
       "short_text": "Agencies not used to attack political opponents.",
-      "category": "Role of government agencies in politics"
+      "category": "Role of military, law enforcement, and government agencies in politics"
     },
     {
       "variable_name": "investigations",
       "question_text": "Law enforcement investigations of public officials or their associates are free from political influence or interference.",
       "short_text": "Legal investigations of public officials free from political influence.",
-      "category": "Role of military and law enforcement in politics"
+      "category": "Role of military, law enforcement, and government agencies in politics"
     },
     {
       "variable_name": "military_neutral",
       "question_text": "Military leadership remains politically neutral and does not favor or support any political party or candidate.",
       "short_text": "Military leadership remains politically neutral.",
-      "category": "Role of military and law enforcement in politics"
+      "category": "Role of military, law enforcement, and government agencies in politics"
     },
     {
       "variable_name": "use_military",
       "question_text": "Officeholders do not use the military to advance political agendas or intimidate political opponents.",
       "short_text": "Officeholders do not use the military to advance political agendas.",
-      "category": "Role of military and law enforcement in politics"
+      "category": "Role of military, law enforcement, and government agencies in politics"
     },
     {
       "variable_name": "law_neutral",
       "question_text": "Law enforcement remains politically neutral and does not favor or support any political party or candidate.",
       "short_text": "Law enforcement remains politically neutral.",
-      "category": "Role of military and law enforcement in politics"
+      "category": "Role of military, law enforcement, and government agencies in politics"
     },
     {
       "variable_name": "use_law",
       "question_text": "Officeholders do not use law enforcement to advance political agendas or intimidate political opponents.",
       "short_text": "Officeholders do not use law enforcement to advance political agendas.",
-      "category": "Role of military and law enforcement in politics"
+      "category": "Role of military, law enforcement, and government agencies in politics"
     }
   ]
 }

@@ -48,6 +48,10 @@ npm run dev
 │   │   └── config/
 │   │       ├── meta-imp.json  # Importance metadata (auto-downloaded)
 │   │       └── meta-perf.json # Performance metadata (auto-downloaded)
+|   |       |-- meta-imp.ts    # Importance metadata types (auto-downloaded)
+|   |       |-- meta-perf.ts    # Performance metadata types (auto-downloaded)
+|   |       |-- coordinates-imp.ts    # Importance coordinates types (auto-downloaded)
+|   |       |-- coordinates-perf.ts    # Performance coordinates types (auto-downloaded)
 │   └── [application source code]
 ├── scripts/
 │   ├── setup-dev.sh          # One-time development environment setup
