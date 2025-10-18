@@ -1,100 +1,98 @@
-import React, { useState } from "react";
-import { useViewState } from "../../hooks/useViewState";
-import type { SplitViewMode, DataGranularity } from "../../types/splits";
+//css
+import "./VizControls.css";
+//types
+import type { ReactElement, Dispatch, SetStateAction } from "react";
+import type { RequestedSplit, ResponsesExpanded } from "./VizRoot";
+//components
+import { Toggle, ToggleGroup } from "radix-ui";
 
-type VizMode = "imp" | "perf";
+/*
+We're going to distinguish between a TOGGLE BUTTON and a TOGGLE SWITCH
 
-interface VizControlsProps {
-  onModeChange?: (mode: VizMode) => void;
+A TOGGLE BUTTON very specifically has an 'on' or 'off' state.  The button label refers to the state
+and stays constant, but the button appearance changes to indicate whether the state is 'on' or 'off'
+
+A TOGGLE SWITCH is a generalization of a toggle button, where the two states are any arbitrary mutually
+exclusive values, and both appear as always-visible labels.
+
+
+We're going to use TOGGLE BUTTONs for everything.  The labels will be:
+
++ "collapse responses"
++ "split by response"
++ "split by administration"
++ "split by party"
+
+Radix-UI's Toggle component is a TOGGLE BUTTON
+*/
+
+function listOfSplitsOn(requestedSplit: RequestedSplit): string[] {
+  return Object.entries(requestedSplit)
+    .filter(([_splitDim, split]) => split) //get the splits that are "on"
+    .map(([splitDim, _split]) => splitDim); //get the names of those "on" splits
 }
 
-const VizControls: React.FC<VizControlsProps> = ({ onModeChange }) => {
-  const [selectedMode, setSelectedMode] = useState<VizMode>("imp");
-  const {
-    splitViewMode,
-    dataGranularity,
-    setSplitViewMode,
-    setDataGranularity,
-    isGranularityControlEnabled,
-  } = useViewState();
-
-  const handleModeChange = (mode: VizMode): void => {
-    setSelectedMode(mode);
-    onModeChange?.(mode);
-  };
-
-  const splitViewOptions: { value: SplitViewMode; label: string }[] = [
-    { value: "all-data", label: "All Data" },
-    { value: "by-wave-and-party", label: "By Wave & Party" },
-    { value: "by-wave-only", label: "By Wave Only" },
-    { value: "by-party-only", label: "By Party Only" },
-  ];
-
-  const granularityOptions: { value: DataGranularity; label: string }[] = [
-    { value: "expanded", label: "Expanded" },
-    { value: "collapsed", label: "Collapsed" },
-  ];
-
+export default function VizControls({
+  requestedSplit,
+  setRequestedSplit,
+  responsesExpanded,
+  setResponsesExpanded,
+}: {
+  requestedSplit: RequestedSplit;
+  setRequestedSplit: Dispatch<SetStateAction<RequestedSplit>>;
+  responsesExpanded: ResponsesExpanded;
+  setResponsesExpanded: Dispatch<SetStateAction<ResponsesExpanded>>;
+}): ReactElement {
   return (
-    <div className="viz-controls">
-      {/* Importance/Performance Mode Selector */}
-      <div className="viz-mode-selector">
-        <button
-          className={`mode-button ${selectedMode === "imp" ? "active" : ""}`}
-          onClick={() => handleModeChange("imp")}
-        >
-          Importance
-        </button>
-        <button
-          className={`mode-button ${selectedMode === "perf" ? "active" : ""}`}
-          onClick={() => handleModeChange("perf")}
-        >
-          Performance
-        </button>
-      </div>
-
-      {/* Split View Mode Selector */}
-      <div className="split-view-selector">
-        <label className="control-label">View Mode:</label>
-        <div className="button-group">
-          {splitViewOptions.map((option) => (
-            <button
-              key={option.value}
-              className={`view-button ${
-                splitViewMode === option.value ? "active" : ""
-              }`}
-              onClick={() => setSplitViewMode(option.value)}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Data Granularity Selector - only enabled when not in "All Data" view */}
-      <div
-        className={`granularity-selector ${
-          !isGranularityControlEnabled ? "disabled" : ""
-        }`}
+    <>
+      <ToggleGroup.Root
+        type="multiple"
+        value={listOfSplitsOn(requestedSplit)}
+        onValueChange={(newSplitDimsOn) => {
+          setRequestedSplit((prevRequestedSplit) => {
+            const newSplit = Object.fromEntries(
+              Object.keys(prevRequestedSplit).map((splitDim) => [
+                splitDim,
+                newSplitDimsOn.includes(splitDim),
+              ])
+            );
+            if (newSplit["response"]) {
+              return newSplit as {
+                response: true;
+                wave: boolean;
+                party: boolean;
+              };
+            }
+            setResponsesExpanded("expanded");
+            return {
+              response: false,
+              party: false,
+              wave: false,
+            };
+          });
+        }}
       >
-        <label className="control-label">Detail Level:</label>
-        <div className="button-group">
-          {granularityOptions.map((option) => (
-            <button
-              key={option.value}
-              className={`granularity-button ${
-                dataGranularity === option.value ? "active" : ""
-              }`}
-              onClick={() => setDataGranularity(option.value)}
-              disabled={!isGranularityControlEnabled}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
+        {["response", "wave", "party"].map((splitDim) => (
+          <ToggleGroup.Item
+            value={splitDim}
+            disabled={splitDim !== "response" && !requestedSplit.response}
+            key={splitDim}
+            className="toggle-split"
+          >
+            {`split by ${splitDim}`}
+          </ToggleGroup.Item>
+        ))}
+      </ToggleGroup.Root>
+      <Toggle.Root
+        pressed={responsesExpanded === "collapsed"}
+        onPressedChange={(newPressed) => {
+          setResponsesExpanded(newPressed ? "collapsed" : "expanded");
+        }}
+        disabled={!requestedSplit.response}
+        className="toggle-split"
+      >
+        collapse responses
+      </Toggle.Root>
+    </>
   );
-};
-
-export default VizControls;
+}

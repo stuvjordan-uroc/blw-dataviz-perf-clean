@@ -1,5 +1,5 @@
 import React from "react";
-import Canvas from "./components/visualization/elements/Canvas";
+import Canvas from "./components/visualization/SCRATCH_elements/Canvas";
 import "./components/visualization/visualization.css";
 
 const TestCanvas: React.FC = () => {

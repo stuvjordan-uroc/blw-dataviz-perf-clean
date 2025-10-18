@@ -118,7 +118,7 @@ interface SplitProportionsWithSegments {
   collapsed: SplitProportionWithSegment[];
 }
 
-interface SplitWithSegments {
+export interface SplitWithSegments {
   wave: Wave | null;
   party: Party | null;
   responses: SplitProportionsWithSegments | null;

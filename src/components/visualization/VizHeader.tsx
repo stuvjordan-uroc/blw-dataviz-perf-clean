@@ -1,24 +1,21 @@
-import React from "react";
+//css
+import "./VizHeader.css";
+//types
+import type { ReactElement } from "react";
+import type { VizTab } from "./VizRoot";
+//config
+import questions from "../../assets/config/questions.json";
 
-interface VizHeaderProps {
-  characteristic: string;
-}
-
-const VizHeader: React.FC<VizHeaderProps> = ({ characteristic }) => {
+export default function VizHeader({
+  vizTab,
+}: {
+  vizTab: VizTab;
+}): ReactElement {
   return (
-    <header className="viz-header">
-      <h2 className="viz-title">
-        Survey Results:{" "}
-        {characteristic
-          .replace(/_/g, " ")
-          .replace(/\b\w/g, (l) => l.toUpperCase())}
-      </h2>
-      <p className="viz-subtitle">
-        Public opinion data visualization showing responses by political
-        affiliation
-      </p>
-    </header>
+    <div className="viz-header">
+      {vizTab === "imp"
+        ? questions["prefix_importance"]
+        : questions["prefix_performance"]}
+    </div>
   );
-};
-
-export default VizHeader;
+}

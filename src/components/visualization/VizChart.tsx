@@ -1,5 +1,5 @@
 import React from "react";
-import Canvas from "./elements/Canvas";
+import Canvas from "./SCRATCH_elements/Canvas";
 
 type VizMode = "imp" | "perf";
 

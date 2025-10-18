@@ -1,0 +1,11 @@
+.toggle-split {
+  background-color: var(--blw-gray300);
+}
+
+.toggle-split[data-state="on"] {
+  background-color: var(--blw-whale300);
+}
+
+.toggle-split[data-disabled] {
+  color: var(--blw-gray800);
+}

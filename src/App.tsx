@@ -4,13 +4,15 @@ import { useBreakpoint } from "./hooks/useBreakpoint";
 //css
 import "./App.css";
 //components
-import Viz from "./components/Viz";
+import { Viz } from "./components/Viz";
 import CharacteristicPicker from "./components/CharacteristicPicker";
 import Header from "./components/Header";
 //vizConfig to get layout parameters
 import vizConfig from "./assets/config/viz-config.json";
+//types
+import type { ReactElement } from "react";
 
-function App() {
+function App(): ReactElement {
   const [requested_characteristic, setRequested_characteristic] = useState<
     null | string
   >(null);
