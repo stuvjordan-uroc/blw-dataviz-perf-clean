@@ -63,23 +63,67 @@ export const useCharacteristicData = ({
         const impResponse = await fetch(`/imp/${characteristic}/${breakpoint}.gz`);
         const perfResponse = await fetch(`/perf/${characteristic}/${breakpoint}.gz`);
 
-        if (!impResponse.ok || !perfResponse.ok) {
-          throw new Error(`Failed to load data files for ${characteristic}/${breakpoint}`);
+        // Check if at least one file exists - it's valid to have only imp OR only perf data
+        if (!impResponse.ok && !perfResponse.ok) {
+          throw new Error(`No data files found for ${characteristic}/${breakpoint} in either imp or perf folders`);
         }
 
-        // Get the compressed data as ArrayBuffer, then decompress with fflate
-        const impArrayBuffer = await impResponse.arrayBuffer();
-        const perfArrayBuffer = await perfResponse.arrayBuffer();
+        // Helper function to create empty CoordinateData structure
+        const createEmptyCoordinateData = (): CoordinateData => ({
+          splits: [],
+          unsplitPositions: {
+            error: false,
+            data: []
+          },
+          waves: []
+        });
 
-        // Decompress the gzipped data
-        const impDecompressed = gunzipSync(new Uint8Array(impArrayBuffer));
-        const perfDecompressed = gunzipSync(new Uint8Array(perfArrayBuffer));
+        // Helper function to get JSON string from uint8 array (auto-detect compression)
+        const getJsonString = (uint8Array: Uint8Array): string => {
+          // Check if data looks already decompressed (starts with '{' or '[')
+          const firstChar = String.fromCharCode(uint8Array[0]);
 
-        // Convert decompressed bytes to string and parse as JSON
-        const impData = JSON.parse(strFromU8(impDecompressed)) as CoordinateData;
-        const perfData = JSON.parse(strFromU8(perfDecompressed)) as CoordinateData;
+          if (firstChar === '{' || firstChar === '[') {
+            // Server auto-decompressed - use data as-is
+            return strFromU8(uint8Array);
+          } else {
+            // Manual decompression needed - server served raw gzipped bytes
+            const decompressed = gunzipSync(uint8Array);
+            return strFromU8(decompressed);
+          }
+        };
 
-        // Generate image filenames dynamically from config
+        // Process files - handle cases where one or both might be missing
+        let impData: CoordinateData;
+        let perfData: CoordinateData;
+
+        try {
+          // Handle imp data
+          if (impResponse.ok) {
+            const impArrayBuffer = await impResponse.arrayBuffer();
+            const impUint8Array = new Uint8Array(impArrayBuffer);
+            const impJsonString = getJsonString(impUint8Array);
+            impData = JSON.parse(impJsonString) as CoordinateData;
+          } else {
+            // No imp data available - use empty structure
+            impData = createEmptyCoordinateData();
+          }
+
+          // Handle perf data
+          if (perfResponse.ok) {
+            const perfArrayBuffer = await perfResponse.arrayBuffer();
+            const perfUint8Array = new Uint8Array(perfArrayBuffer);
+            const perfJsonString = getJsonString(perfUint8Array);
+            perfData = JSON.parse(perfJsonString) as CoordinateData;
+          } else {
+            // No perf data available - use empty structure
+            perfData = createEmptyCoordinateData();
+          }
+
+        } catch (jsonError) {
+          console.error("JSON parsing error:", jsonError);
+          throw new Error(`Failed to parse JSON data for ${characteristic}/${breakpoint}: ${jsonError}`);
+        }        // Generate image filenames dynamically from config
         const { parties, shades } = vizConfig.colorConfig;
         const radius = vizConfig.layouts.find(layout => layout.breakpoint === breakpoint)?.pointRadius || 4;
 

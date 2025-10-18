@@ -1,9 +1,16 @@
+//css
+import "./CharacteristicPicker.css";
+//hooks
 import React, { useState, useEffect } from "react";
+//components
+import Spinner from "./elements/Spinner";
+//types
 import type {
   QuestionsData,
   GroupedPrompts,
   QuestionPrompt,
 } from "../types/questions";
+//config
 import questionsData from "../assets/config/questions.json";
 
 interface CharacteristicPickerProps {
@@ -17,22 +24,55 @@ const CharacteristicPicker: React.FC<CharacteristicPickerProps> = ({
 }) => {
   const [groupedPrompts, setGroupedPrompts] = useState<GroupedPrompts>({});
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Group prompts by category
-    const questions = questionsData as QuestionsData;
-    const grouped = questions.prompts.reduce(
-      (acc: GroupedPrompts, prompt: QuestionPrompt) => {
-        if (!acc[prompt.category]) {
-          acc[prompt.category] = [];
-        }
-        acc[prompt.category].push(prompt);
-        return acc;
-      },
-      {}
-    );
+    const checkDirectoryExists = async (path: string): Promise<boolean> => {
+      try {
+        const response = await fetch(path, { method: "HEAD" });
+        return response.ok;
+      } catch {
+        return false;
+      }
+    };
 
-    setGroupedPrompts(grouped);
+    const filterAndGroupPrompts = async (): Promise<void> => {
+      setIsLoading(true);
+      const questions = questionsData as QuestionsData;
+
+      // Filter prompts that have corresponding directories in either public/imp/ or public/perf/
+      const filteredPrompts: QuestionPrompt[] = [];
+
+      for (const prompt of questions.prompts) {
+        const impDirExists = await checkDirectoryExists(
+          `/imp/${prompt.variable_name}/`
+        );
+        const perfDirExists = await checkDirectoryExists(
+          `/perf/${prompt.variable_name}/`
+        );
+
+        if (impDirExists || perfDirExists) {
+          filteredPrompts.push(prompt);
+        }
+      }
+
+      // Group filtered prompts by category
+      const grouped = filteredPrompts.reduce(
+        (acc: GroupedPrompts, prompt: QuestionPrompt) => {
+          if (!acc[prompt.category]) {
+            acc[prompt.category] = [];
+          }
+          acc[prompt.category].push(prompt);
+          return acc;
+        },
+        {}
+      );
+
+      setGroupedPrompts(grouped);
+      setIsLoading(false);
+    };
+
+    filterAndGroupPrompts();
   }, []);
 
   const handleCharacteristicSelect = (variableName: string): void => {
@@ -55,27 +95,14 @@ const CharacteristicPicker: React.FC<CharacteristicPickerProps> = ({
   const selectedPrompt = getSelectedPrompt();
 
   return (
-    <div style={{ margin: "20px", maxWidth: "600px" }}>
-      <h2 style={{ marginBottom: "16px", color: "#1f2937" }}>
-        Select a Characteristic
-      </h2>
+    <div className="characteristic-picker">
+      <h2 className="characteristic-picker__title">Select a Characteristic</h2>
 
-      <div style={{ position: "relative", width: "100%", maxWidth: "500px" }}>
+      <div className="characteristic-picker__dropdown">
         <button
-          style={{
-            width: "100%",
-            padding: "12px 16px",
-            background: "white",
-            border: `2px solid ${isOpen ? "#3b82f6" : "#d1d5db"}`,
-            borderRadius: isOpen ? "8px 8px 0 0" : "8px",
-            textAlign: "left",
-            cursor: "pointer",
-            fontSize: "14px",
-            color: "#374151",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+          className={`characteristic-picker__button ${
+            isOpen ? "characteristic-picker__button--open" : ""
+          }`}
           onClick={() => setIsOpen(!isOpen)}
         >
           <span>
@@ -84,94 +111,45 @@ const CharacteristicPicker: React.FC<CharacteristicPickerProps> = ({
               : "Choose a characteristic..."}
           </span>
           <span
-            style={{
-              color: "#6b7280",
-              fontSize: "12px",
-              transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-              transition: "transform 0.2s ease",
-            }}
+            className={`characteristic-picker__arrow ${
+              isOpen ? "characteristic-picker__arrow--open" : ""
+            }`}
           >
             ▼
           </span>
         </button>
 
         {isOpen && (
-          <div
-            style={{
-              position: "absolute",
-              top: "100%",
-              left: 0,
-              right: 0,
-              background: "white",
-              border: "2px solid #3b82f6",
-              borderTop: "none",
-              borderRadius: "0 0 8px 8px",
-              maxHeight: "400px",
-              overflowY: "auto",
-              zIndex: 1000,
-              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            {Object.entries(groupedPrompts).map(([category, prompts]) => (
-              <div key={category} style={{ borderBottom: "1px solid #f3f4f6" }}>
-                <div
-                  style={{
-                    padding: "12px 16px 8px",
-                    fontWeight: "600",
-                    color: "#1f2937",
-                    fontSize: "13px",
-                    background: "#f9fafb",
-                    borderBottom: "1px solid #e5e7eb",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                  }}
-                >
-                  {category}
-                </div>
-                {prompts.map((prompt) => (
-                  <button
-                    key={prompt.variable_name}
-                    style={{
-                      width: "100%",
-                      padding: "10px 16px 10px 24px",
-                      textAlign: "left",
-                      background:
-                        selectedCharacteristic === prompt.variable_name
-                          ? "#dbeafe"
-                          : "none",
-                      border: "none",
-                      cursor: "pointer",
-                      fontSize: "13px",
-                      color:
-                        selectedCharacteristic === prompt.variable_name
-                          ? "#1d4ed8"
-                          : "#374151",
-                      lineHeight: "1.4",
-                      fontWeight:
-                        selectedCharacteristic === prompt.variable_name
-                          ? "500"
-                          : "normal",
-                    }}
-                    onClick={() =>
-                      handleCharacteristicSelect(prompt.variable_name)
-                    }
-                    title={prompt.question_text}
-                    onMouseEnter={(e) => {
-                      if (selectedCharacteristic !== prompt.variable_name) {
-                        e.currentTarget.style.background = "#f3f4f6";
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (selectedCharacteristic !== prompt.variable_name) {
-                        e.currentTarget.style.background = "none";
-                      }
-                    }}
-                  >
-                    {prompt.short_text}
-                  </button>
-                ))}
+          <div className="characteristic-picker__menu">
+            {isLoading ? (
+              <div className="characteristic-picker__loading">
+                <Spinner />
               </div>
-            ))}
+            ) : (
+              Object.entries(groupedPrompts).map(([category, prompts]) => (
+                <div key={category} className="characteristic-picker__category">
+                  <div className="characteristic-picker__category-header">
+                    {category}
+                  </div>
+                  {prompts.map((prompt) => (
+                    <button
+                      key={prompt.variable_name}
+                      className={`characteristic-picker__option ${
+                        selectedCharacteristic === prompt.variable_name
+                          ? "characteristic-picker__option--selected"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handleCharacteristicSelect(prompt.variable_name)
+                      }
+                      title={prompt.question_text}
+                    >
+                      {prompt.short_text}
+                    </button>
+                  ))}
+                </div>
+              ))
+            )}
           </div>
         )}
       </div>

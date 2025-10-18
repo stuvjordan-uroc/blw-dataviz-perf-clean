@@ -1,0 +1,16 @@
+.spinner-path {
+  stroke: var(--blw-whale600);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: center;
+  }
+
+  100% {
+    transform: rotate(360deg);
+    transform-origin: center;
+  }
+}

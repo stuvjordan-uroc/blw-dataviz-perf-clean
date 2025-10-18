@@ -19,4 +19,14 @@ DONE
 
 ## Spinner to indicate data loading state in canvas container
 
+DONE
+
+## Get data loading hook to behave as required when a characteristic is picked.
+
+DONE
+
+## Wire up canvas to show data loading/error/ready state, without displaying any data
+
+## Start working on canvas-drawing functions.
+
 ## All downloaded type defs are in meta.json. Fix data generation and download to get rid of coordinate type files.

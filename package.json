@@ -5,14 +5,12 @@
   "type": "module",
   "scripts": {
     "setup-dev": "./scripts/setup-dev.sh",
-    "build-data": "tsx --max-old-space-size=8192 scripts/build-data.js",
     "generate-png-points": "node scripts/generate-png-points.js",
     "fetch-data": "node scripts/fetch-data.js",
     "fetch-data:force": "node scripts/fetch-data.js --force",
     "fetch-data:list": "node scripts/fetch-data.js --list",
     "dev": "node --max-old-space-size=4096 ./node_modules/.bin/vite",
-    "dev:with-data": "npm run build-data && npm run dev",
-    "build": "npm run build-data && tsc -b && vite build",
+    "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

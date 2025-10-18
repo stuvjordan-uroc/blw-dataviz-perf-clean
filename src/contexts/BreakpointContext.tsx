@@ -1,17 +1,17 @@
 import type { ReactElement, ReactNode } from "react";
-import { useBreakpoint } from "../hooks/useBreakpoint";
-import { BreakpointContext } from "./breakpointContext";
+import { BreakpointContext } from "./breakpointContext.ts";
+import type { Breakpoint } from "../hooks/useBreakpoint";
 
 // Provider component
 export function BreakpointProvider({
   children,
+  value,
 }: {
   children: ReactNode;
+  value: Breakpoint;
 }): ReactElement {
-  const breakpoint = useBreakpoint();
-
   return (
-    <BreakpointContext.Provider value={breakpoint}>
+    <BreakpointContext.Provider value={value}>
       {children}
     </BreakpointContext.Provider>
   );

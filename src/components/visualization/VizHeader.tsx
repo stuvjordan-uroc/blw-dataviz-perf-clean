@@ -2,7 +2,7 @@
 import "./VizHeader.css";
 //types
 import type { ReactElement } from "react";
-import type { VizTab } from "./VizRoot";
+import type { VizTab } from "../Viz";
 //config
 import questions from "../../assets/config/questions.json";
 
