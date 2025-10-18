@@ -25,8 +25,6 @@ DONE
 
 DONE
 
-## Wire up canvas to show data loading/error/ready state, without displaying any data
-
-## Start working on canvas-drawing functions.
+## Create useCanvas hook
 
 ## All downloaded type defs are in meta.json. Fix data generation and download to get rid of coordinate type files.
