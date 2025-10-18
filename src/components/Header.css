@@ -1,0 +1,8 @@
+.app-header {
+  text-align: center;
+  width: 100%;
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: var(--blw-gray100);
+  background: var(--header-gradient);
+}

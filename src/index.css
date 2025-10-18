@@ -1,3 +1,10 @@
+/* ensure consistent box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   /* colors */
 
@@ -63,7 +70,53 @@
   --blw-whale800: hsl(194, 97%, 18%);
   --blw-whale900: hsl(194, 97%, 6%);
   /* semantic color vars */
-  --color-brand: var(--blw-goldenrod);
+  --color-brand: var(--blw-goldenrod500);
   --blw-whale: var(--blw-whale800);
   --color-text: var(--blw-whale900);
+
+  --header-gradient: linear-gradient(0deg, var(--color-brand), var(--blw-gray100) 20%, var(--blw-whale800) 50%);
+
+}
+
+/* Self-hosted font: Jost
+   Drop downloaded font files into public/fonts/ with the filenames used below.
+   Recommended weights: 400 (regular) and 700 (bold).
+*/
+
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/jost-regular.woff2') format('woff2'),
+    url('/fonts/jost-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/jost-700.woff2') format('woff2'),
+    url('/fonts/jost-700.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Prevent any page scrolling */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Jost', sans-serif;
+  font-size: 16pt;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* overflow: hidden;  -- handled above */
+  background-color: var(--blw-whale900);
 }

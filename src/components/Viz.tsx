@@ -1,13 +1,14 @@
 import VizContainer from "./visualization/VizContainer";
+import type { ReactElement } from "react";
 
 interface VizProps {
   characteristic: string;
 }
 
-function Viz({ characteristic }: VizProps) {
+function Viz({ characteristic }: VizProps): ReactElement {
   return (
     <div className="viz-wrapper">
-      <VizContainer characteristic={characteristic} />
+      {/* <VizContainer characteristic={characteristic} /> */}
     </div>
   );
 }
