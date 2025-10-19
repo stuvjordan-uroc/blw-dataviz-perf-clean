@@ -10,26 +10,44 @@
     "response_groups": {
       "expanded": [
         [
-          "Not relevant"
+          "Not relevant",
+          [
+            "Not relevant"
+          ]
         ],
         [
-          "Beneficial"
+          "Beneficial",
+          [
+            "Beneficial"
+          ]
         ],
         [
-          "Important"
+          "Important",
+          [
+            "Important"
+          ]
         ],
         [
-          "Essential"
+          "Essential",
+          [
+            "Essential"
+          ]
         ]
       ],
       "collapsed": [
         [
-          "Not relevant",
-          "Beneficial"
+          "Not relevant OR Beneficial",
+          [
+            "Not relevant",
+            "Beneficial"
+          ]
         ],
         [
-          "Important",
-          "Essential"
+          "Important OR Essential",
+          [
+            "Important",
+            "Essential"
+          ]
         ]
       ]
     }

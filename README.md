@@ -38,7 +38,7 @@ npm run dev
 │   │   └── [29 more characteristics...]
 │   ├── perf/                  # Performance characteristics data
 │   │   └── [~30 characteristics with same structure]
-│   └── generated-points/      # Generated PNG circles for visualization (auto-generated)
+│   └── circles/      # Generated PNG circles for visualization (auto-generated)
 │       ├── small/             # 16 circles at 3px radius
 │       ├── medium/            # 16 circles at 4px radius
 │       ├── large/             # 16 circles at 4px radius
@@ -63,15 +63,15 @@ npm run dev
 
 ## 🛠️ Development Commands
 
-| Command                       | Description                                                   |
-| ----------------------------- | ------------------------------------------------------------- |
-| `npm run setup-dev`           | **First-time setup** - Run this when you first clone the repo |
-| `npm run dev`                 | Start development server                                      |
-| `npm run generate-png-points` | Generate PNG circles for data visualization points            |
-| `npm run fetch-data`          | Re-download data files from S3 (when data updates)            |
-| `npm run fetch-data:force`    | Force re-download all files (ignore cache)                    |
-| `npm run build`               | Build for production                                          |
-| `npm run lint`                | Run ESLint                                                    |
+| Command                        | Description                                                   |
+| ------------------------------ | ------------------------------------------------------------- |
+| `npm run setup-dev`            | **First-time setup** - Run this when you first clone the repo |
+| `npm run dev`                  | Start development server                                      |
+| `npm run generate-circle-pngs` | Generate PNG circles for data visualization points            |
+| `npm run fetch-data`           | Re-download data files from S3 (when data updates)            |
+| `npm run fetch-data:force`     | Force re-download all files (ignore cache)                    |
+| `npm run build`                | Build for production                                          |
+| `npm run lint`                 | Run ESLint                                                    |
 
 ## 🔐 AWS Configuration
 

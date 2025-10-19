@@ -6,31 +6,51 @@
       "Does not meet",
       "Mostly meets",
       "Partly meets",
-      "Not sure"
+      "Not sure",
+      "not asked",
+      "skipped"
     ],
     "response_groups": {
       "expanded": [
         [
-          "Does not meet"
+          "Does not meet",
+          [
+            "Does not meet"
+          ]
         ],
         [
-          "Partly meets"
+          "Partly meets",
+          [
+            "Partly meets"
+          ]
         ],
         [
-          "Mostly meets"
+          "Mostly meets",
+          [
+            "Mostly meets"
+          ]
         ],
         [
-          "Fully meets"
+          "Fully meets",
+          [
+            "Fully meets"
+          ]
         ]
       ],
       "collapsed": [
         [
-          "Does not meet",
-          "Partly meets"
+          "Does not meet OR Partly meets",
+          [
+            "Does not meet",
+            "Partly meets"
+          ]
         ],
         [
-          "Mostly meets",
-          "Fully meets"
+          "Mostly meets OR Fully meets",
+          [
+            "Mostly meets",
+            "Fully meets"
+          ]
         ]
       ]
     }
@@ -91,7 +111,8 @@
       22,
       23,
       24,
-      25
+      25,
+      26
     ],
     "response_groups": [
       [
