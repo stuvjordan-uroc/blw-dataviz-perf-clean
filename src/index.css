@@ -74,8 +74,8 @@
   --blw-whale: var(--blw-whale800);
   --color-text: var(--blw-whale900);
 
-  --header-gradient: linear-gradient(0deg, var(--color-brand), var(--blw-gray100) 20%, var(--blw-whale800) 50%);
-
+  --header-gradient: linear-gradient(0deg, var(--blw-gray100), var(--color-brand) 10%, var(--blw-gray100) 20%, var(--blw-whale800) 50%);
+  --app-gradient: linear-gradient(0deg, var(--color-brand), var(--blw-gray100) 2%, hsl(192, 7%, 50%) 3%, var(--blw-whale800) 15%);
 }
 
 /* Self-hosted font: Jost

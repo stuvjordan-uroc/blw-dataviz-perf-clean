@@ -34,6 +34,7 @@ export function Viz({ requestedCharacteristic }: VizProps): ReactElement {
           value="imp"
           forceMount
           style={{ display: vizTab === "imp" ? "block" : "none" }}
+          className="viz-tab-content"
         >
           <VizRoot vizTab="imp" />
         </Tabs.Content>
@@ -41,6 +42,7 @@ export function Viz({ requestedCharacteristic }: VizProps): ReactElement {
           value="perf"
           forceMount
           style={{ display: vizTab === "perf" ? "block" : "none" }}
+          className="viz-tab-content"
         >
           <VizRoot vizTab="perf" />
         </Tabs.Content>

@@ -79,7 +79,7 @@ interface Layout {
   pointRadius: number;
 }
 
-interface PointPosition {
+export interface PointPosition {
   x: number;
   y: number;
   cx: number;

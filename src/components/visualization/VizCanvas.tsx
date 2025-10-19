@@ -3,17 +3,14 @@ import "./VizCanvas.css";
 //types
 import type { ReactElement } from "react";
 import type { VizTab } from "../Viz";
-import type { VizConfig, Layout } from "../../assets/config/viz-config";
 import type { RequestedSplit, ResponsesExpanded } from "./VizRoot";
-import type { Meta } from "../../assets/config/meta";
 //hooks and context
 import { useBreakpointContext } from "../../hooks/useBreakpointContext";
 import { useCharacteristicDataContext } from "../../contexts/useCharacteristicDataContext";
 import useCanvas from "../../hooks/useCanvas";
-//config
-import vizConfig from "../../assets/config/viz-config.json";
-import metaImp from "../../assets/config/meta-imp.json";
-import metaPerf from "../../assets/config/meta-perf.json";
+import useCanvasDimensions from "../../hooks/useCanvasDimensions";
+//components
+import Spinner from "../elements/Spinner";
 
 interface VizCanvasProps {
   vizTab: VizTab;
@@ -26,33 +23,14 @@ export default function VizCanvas({
   requestedSplit,
   responsesExpanded,
 }: VizCanvasProps): ReactElement {
-  // Get current breakpoint from context
+  // get the canvas dimensions for the current breakpoint
   const breakpoint = useBreakpointContext();
+  const canvasDimensions = useCanvasDimensions({ breakpoint, vizTab });
 
-  // Type the vizConfig import
-  const typedVizConfig = vizConfig as unknown as VizConfig;
-
-  // Find the layout for the current breakpoint
-  const layout: Layout | undefined = typedVizConfig.layouts.find(
-    (layout) => layout.breakpoint === breakpoint
-  );
-
-  // Fallback to first layout if breakpoint not found
-  const currentLayout: Layout = layout || typedVizConfig.layouts[0];
-
-  // Choose meta file based on vizTab prop
-  const meta = vizTab === "imp" ? (metaImp as Meta) : (metaPerf as Meta);
-
-  // Calculate numWaves from meta.wave.response_groups length
-  const numWaves = meta.wave.response_groups.length;
-
-  // Calculate canvas dimensions
-  const canvasHeight =
-    currentLayout.labelHeight +
-    numWaves * (currentLayout.labelHeight + currentLayout.waveHeight);
-  const canvasWidth = currentLayout.vizWidth;
-
-  //characterstic data state
+  //set the canvas ref
+  //and link it to the data and requested view variables
+  //so coordinates are drawn when data is available
+  //and as the user requests.
   const characteristicData = useCharacteristicDataContext();
   //useCanvas to set up drawing logic
   const canvasRef = useCanvas({
@@ -64,13 +42,51 @@ export default function VizCanvas({
 
   return (
     <div className="canvas-container">
-      {/*  Loading Spinner, Error Indicator, No-Data messages here  */}
-      <canvas
-        ref={canvasRef}
-        className="viz-canvas"
-        width={canvasWidth}
-        height={canvasHeight}
-      />
+      {/*  Loading Spinner, Error Indicator,  here  */}
+      {characteristicData.state === "pending" && (
+        <div style={{ position: "absolute", top: "50%", left: "50%" }}>
+          <Spinner />
+        </div>
+      )}
+      {/* No-data indicator */}
+      {characteristicData.state === "ready" &&
+        characteristicData.data &&
+        characteristicData.data[(vizTab + "Data") as "impData" | "perfData"]
+          .unsplitPositions.data.length === 0 &&
+        characteristicData.data && (
+          <div
+            style={{
+              color: "white",
+              marginTop: "5em",
+              maxWidth: "10em",
+            }}
+          >
+            Sorry, we didn't collect data on respondents' views of the{" "}
+            {vizTab === "imp"
+              ? "importance for democracy of"
+              : "performance of the US on"}{" "}
+            this characterstic.
+          </div>
+        )}
+      {/* Error indicator */}
+      {characteristicData.state === "error" && (
+        <div
+          style={{
+            color: "white",
+            marginTop: "5em",
+          }}
+        >
+          Sorry, but something went wrong!
+        </div>
+      )}
+      {characteristicData.state !== "error" && (
+        <canvas
+          ref={canvasRef}
+          className="viz-canvas"
+          width={canvasDimensions.width}
+          height={canvasDimensions.height}
+        />
+      )}
     </div>
   );
 }

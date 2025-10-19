@@ -9,8 +9,6 @@ import "./App.css";
 import { Viz } from "./components/Viz";
 import CharacteristicPicker from "./components/CharacteristicPicker";
 import Header from "./components/Header";
-//vizConfig to get layout parameters
-import vizConfig from "./assets/config/viz-config.json";
 //types
 import type { ReactElement } from "react";
 
@@ -28,15 +26,9 @@ function App(): ReactElement {
     setRequestedCharacteristic(characteristic);
   };
 
-  //this is for constraining the with of the App at the highest breakpoint
-  const minOfMaxScreenWidth =
-    vizConfig["layouts"][vizConfig["layouts"].length - 1][
-      "screenWidthRange"
-    ][0];
-
   return (
     <BreakpointProvider value={breakpoint}>
-      <div className="app" style={{ maxWidth: minOfMaxScreenWidth + "px" }}>
+      <div className="app">
         <Header />
         <CharacteristicPicker
           onCharacteristicSelect={handleCharacteristicSelect}

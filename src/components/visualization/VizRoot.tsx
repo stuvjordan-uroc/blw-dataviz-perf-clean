@@ -46,7 +46,11 @@ export function VizRoot({ vizTab }: { vizTab: VizTab }): ReactElement {
         responsesExpanded={responsesExpanded}
         setResponsesExpanded={setResponsesExpanded}
       />
-      <VizCanvas vizTab={vizTab} />
+      <VizCanvas
+        vizTab={vizTab}
+        requestedSplit={requestedSplit}
+        responsesExpanded={responsesExpanded}
+      />
     </div>
   );
 }
