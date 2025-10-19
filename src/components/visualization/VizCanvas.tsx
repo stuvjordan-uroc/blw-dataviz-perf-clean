@@ -1,20 +1,31 @@
+//css
 import "./VizCanvas.css";
-import type { ReactElement, Ref } from "react";
+//types
+import type { ReactElement } from "react";
 import type { VizTab } from "../Viz";
-import { useBreakpointContext } from "../../hooks/useBreakpointContext";
-import vizConfig from "../../assets/config/viz-config.json";
 import type { VizConfig, Layout } from "../../assets/config/viz-config";
+import type { RequestedSplit, ResponsesExpanded } from "./VizRoot";
+import type { Meta } from "../../assets/config/meta";
+//hooks and context
+import { useBreakpointContext } from "../../hooks/useBreakpointContext";
+import { useCharacteristicDataContext } from "../../contexts/useCharacteristicDataContext";
+import useCanvas from "../../hooks/useCanvas";
+//config
+import vizConfig from "../../assets/config/viz-config.json";
 import metaImp from "../../assets/config/meta-imp.json";
 import metaPerf from "../../assets/config/meta-perf.json";
-import type { Meta } from "../../assets/config/meta";
+
+interface VizCanvasProps {
+  vizTab: VizTab;
+  requestedSplit: RequestedSplit;
+  responsesExpanded: ResponsesExpanded;
+}
 
 export default function VizCanvas({
-  canvasRef,
   vizTab,
-}: {
-  canvasRef?: Ref<HTMLCanvasElement>;
-  vizTab: VizTab;
-}): ReactElement {
+  requestedSplit,
+  responsesExpanded,
+}: VizCanvasProps): ReactElement {
   // Get current breakpoint from context
   const breakpoint = useBreakpointContext();
 
@@ -41,8 +52,19 @@ export default function VizCanvas({
     numWaves * (currentLayout.labelHeight + currentLayout.waveHeight);
   const canvasWidth = currentLayout.vizWidth;
 
+  //characterstic data state
+  const characteristicData = useCharacteristicDataContext();
+  //useCanvas to set up drawing logic
+  const canvasRef = useCanvas({
+    characteristicData,
+    requestedSplit,
+    responsesExpanded,
+    vizTab,
+  });
+
   return (
     <div className="canvas-container">
+      {/*  Loading Spinner, Error Indicator, No-Data messages here  */}
       <canvas
         ref={canvasRef}
         className="viz-canvas"

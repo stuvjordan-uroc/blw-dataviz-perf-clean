@@ -25,6 +25,10 @@ DONE
 
 DONE
 
-## Create useCanvas hook
+## Create useCanvas hook without drawing logic
+
+DONE
+
+### Add loading spinner, error indicator, and no-data messages to VizCanvas
 
 ## All downloaded type defs are in meta.json. Fix data generation and download to get rid of coordinate type files.

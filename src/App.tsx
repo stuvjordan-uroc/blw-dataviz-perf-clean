@@ -1,6 +1,5 @@
 //hooks, etc.
 import { useState } from "react";
-import { useCharacteristicData } from "./hooks/useCharacteristicData";
 import { useBreakpoint } from "./hooks/useBreakpoint";
 //context for distributing stuff to children
 import { BreakpointProvider } from "./contexts/BreakpointContext";
@@ -17,25 +16,16 @@ import type { ReactElement } from "react";
 
 function App(): ReactElement {
   //requested characteristic state
-  const [requested_characteristic, setRequested_characteristic] = useState<
+  const [requestedCharacteristic, setRequestedCharacteristic] = useState<
     null | string
   >(null);
 
   //current breakpoint state - App manages this directly
   const breakpoint = useBreakpoint();
 
-  //set up the datastate.
-  //note that the hook that returns dataState
-  //set up a use-effect that causes data fetch whenever
-  //either requested_characterstic or breakpoint changes.
-  useCharacteristicData({
-    characteristic: requested_characteristic,
-    breakpoint: breakpoint,
-  });
-
   //handler for characteristic selection
   const handleCharacteristicSelect = (characteristic: string): void => {
-    setRequested_characteristic(characteristic);
+    setRequestedCharacteristic(characteristic);
   };
 
   //this is for constraining the with of the App at the highest breakpoint
@@ -50,10 +40,10 @@ function App(): ReactElement {
         <Header />
         <CharacteristicPicker
           onCharacteristicSelect={handleCharacteristicSelect}
-          selectedCharacteristic={requested_characteristic}
+          selectedCharacteristic={requestedCharacteristic}
         />
-        {requested_characteristic !== null && (
-          <Viz characteristic={requested_characteristic} />
+        {requestedCharacteristic !== null && (
+          <Viz requestedCharacteristic={requestedCharacteristic} />
         )}
       </div>
     </BreakpointProvider>
