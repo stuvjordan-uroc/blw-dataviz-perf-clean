@@ -2,7 +2,7 @@
 // Do not edit manually - regenerate using generate_typescript.py
 
 interface SplitProportion {
-  response: string[];
+  response: [string, string[]];
   proportion: number;
 }
 
@@ -35,8 +35,8 @@ interface Characteristic {
 }
 
 interface ResponseGroups {
-  expanded: string[][];
-  collapsed: string[][];
+  expanded: [string, string[]][];
+  collapsed: [string, string[]][];
 }
 
 interface ResponseMeta {
@@ -101,13 +101,13 @@ interface Segment {
 }
 
 interface SplitProportionWithCount {
-  response: string[];
+  response: [string, string[]];
   proportion: number;
   count: number;
 }
 
 interface SplitProportionWithSegment {
-  response: string[];
+  response: [string, string[]];
   proportion: number;
   count: number;
   segment: Segment;

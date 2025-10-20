@@ -31,10 +31,11 @@ export default function VizCanvas({
   //and link it to the data and requested view variables
   //so coordinates are drawn when data is available
   //and as the user requests.
-  const characteristicData = useCharacteristicDataContext();
+  const characteristicDataContext = useCharacteristicDataContext();
+  const characteristicData = characteristicDataContext[0];
   //useCanvas to set up drawing logic
   const canvasRef = useCanvas({
-    characteristicData,
+    characteristicDataContext,
     requestedSplit,
     responsesExpanded,
     vizTab,

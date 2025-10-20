@@ -21,14 +21,14 @@ export function Viz({ requestedCharacteristic }: VizProps): ReactElement {
   const breakpoint = useBreakpoint();
   //set up the datastate.
   //note that the hook that returns dataState
-  //set up a useEffect that causes data fetch whenever
+  //sets up a useEffect that causes data fetch whenever
   //either requestedCharacterstic or breakpoint changes.
-  const characteristicData = useCharacteristicData({
+  const charDataCtx = useCharacteristicData({
     characteristic: requestedCharacteristic,
     breakpoint,
   });
   return (
-    <CharacteristicDataProvider value={characteristicData}>
+    <CharacteristicDataProvider value={charDataCtx}>
       <VizTabSelect vizTab={vizTab} setVizTab={setVizTab}>
         <Tabs.Content
           value="imp"

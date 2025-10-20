@@ -1,18 +1,38 @@
-import { useState, useEffect } from "react";
+//hooks
+import { useState, useEffect, useRef } from "react";
+//modules
 import { gunzipSync, strFromU8 } from "fflate";
+//types
 import type { Breakpoint } from "./useBreakpoint";
-//import type { Coordinates } from "../types/splits";
 import type { CoordinateData } from "../assets/config/meta"
+import type { VizConfig } from "../assets/config/viz-config";
+import type { PointPosition } from "../assets/config/meta";
+import type { RefObject } from "react";
+//config
 import vizConfig from "../assets/config/viz-config.json";
+const typedVizConfig = vizConfig as VizConfig
+import metaPerf from "../assets/config/meta-perf.json";
+import metaImp from "../assets/config/meta-imp.json";
 
 // Types for data loading state
 type DataLoadingState = "idle" | "pending" | "ready" | "error";
+
+
+interface Image {
+  breakpoint: string,
+  party: string,
+  responsesExpanded: "collapsed" | "expanded",
+  responseIndex: number,
+  imagePath: string,
+  image: HTMLImageElement
+}
+
 
 // Loaded data structure
 interface CharacteristicData {
   impData: CoordinateData; // JSON data from imp/{characteristic}/{breakpoint}
   perfData: CoordinateData; // JSON data from perf/{characteristic}/{breakpoint}
-  images: Record<string, HTMLImageElement>; // PNG images keyed by filename
+  images: Image[];
 }
 
 interface CharacteristicDataState {
@@ -26,18 +46,145 @@ interface UseCharacteristicDataProps {
   breakpoint: Breakpoint;
 }
 
+export interface RespondentGroup {
+  wave: [string, number[]];
+  party: [string, string[]];
+  response: {
+    expanded: [string, string[]],
+    collapsed: [string, string[]]
+  };
+  count: number;
+  positions: (PointPosition | null)[];  //we allow null point positions 
+  // so we can fudge thing if there are
+  //  mis-matches in the point counts
+  images: {
+    collapsed: {
+      party: HTMLImageElement | undefined,
+      noParty: HTMLImageElement | undefined
+    },
+    expanded: {
+      party: HTMLImageElement | undefined,
+      noParty: HTMLImageElement | undefined
+    },
+    unSplit: HTMLImageElement | undefined
+  };
+  imageToDraw: HTMLImageElement | undefined;
+}
+// Previously a single RefObject holding an object with imp/perf arrays.
+// Now we return an object containing two separate refs so mutations to one
+// don't race with mutations to the other.
+type RespondentsRef = {
+  imp: RefObject<RespondentGroup[]>;
+  perf: RefObject<RespondentGroup[]>;
+}
+
+
+function populateRespondents(
+  charData: CharacteristicData,
+  vizTab: "imp" | "perf",
+  breakpoint: Breakpoint
+): RespondentGroup[] {
+  const respondents = [] as RespondentGroup[]
+  const data = (vizTab === "imp") ? charData.impData : charData.perfData;
+  const imageData = charData.images;
+  data.splits.forEach((split) => {
+    if (split.party !== null && split.wave !== null && split.responses !== null) {
+      const wave = split.wave
+      const party = split.party
+      const partyImageString = (party.value[0].includes("Democrat")) ? "Democrat" : (
+        (party.value[0].includes("Republican") ? "Republican" : "Independent")
+      )
+      split.responses.expanded.forEach((responseGroup, rgIdx) => {
+        /*  
+        Start brittle hack for mapping expanded responseGroup to collapsed response group
+        */
+        const collapsedResponseIdx = (rgIdx <= 1) ? 0 : 1
+        const collapsedResponseGroup = (vizTab === "imp") ?
+          metaImp.response.response_groups.collapsed[collapsedResponseIdx] :
+          metaPerf.response.response_groups.collapsed[collapsedResponseIdx]
+        /*End brittle hack*/
+        const unSplitImage = imageData.find((image) => (
+          image.breakpoint === breakpoint &&
+          image.party === 'Noparty' &&
+          image.responsesExpanded === "expanded" &&
+          image.responseIndex === (
+            (vizTab === "imp") ?
+              metaImp.response.response_groups.expanded.length - 1 :
+              metaPerf.response.response_groups.expanded.length - 1
+          )
+        ))?.image
+        respondents.push({
+          wave: wave.value,
+          party: party.value,
+          response: {
+            expanded: responseGroup.response,
+            collapsed: collapsedResponseGroup as [string, string[]]
+          },
+          count: responseGroup.count,
+          positions: Array.from({ length: responseGroup.count }, () => ({ x: 0, y: 0, cx: 0, cy: 0 })),
+          images: {
+            expanded: {
+              noParty: (imageData.find((image) => (
+                image.breakpoint === breakpoint &&
+                image.party === 'Noparty' &&
+                image.responsesExpanded === "expanded" &&
+                image.responseIndex === rgIdx
+              )))?.image,
+              party: (imageData.find((image) => (
+                image.breakpoint === breakpoint &&
+                image.party === partyImageString &&
+                image.responsesExpanded === "expanded" &&
+                image.responseIndex === rgIdx
+              )))?.image
+            },
+            collapsed: {
+              noParty: (imageData.find((image) => (
+                image.breakpoint === breakpoint &&
+                image.party === 'Noparty' &&
+                image.responsesExpanded === "collapsed" &&
+                image.responseIndex === collapsedResponseIdx
+              )))?.image,
+              party: (imageData.find((image) => (
+                image.breakpoint === breakpoint &&
+                image.party === partyImageString &&
+                image.responsesExpanded === "collapsed" &&
+                image.responseIndex === collapsedResponseIdx
+              )))?.image
+            },
+            unSplit: unSplitImage
+          },
+          imageToDraw: unSplitImage
+        })
+      })
+    }
+  })
+  return respondents
+}
+
+
 export const useCharacteristicData = ({
   characteristic,
   breakpoint
-}: UseCharacteristicDataProps): CharacteristicDataState => {
+}: UseCharacteristicDataProps): [CharacteristicDataState, RespondentsRef] => {
   const [dataState, setDataState] = useState<CharacteristicDataState>({
     state: "idle",
     data: null,
     error: null,
   });
+  // Create two independent refs so updates to one tab's respondents don't
+  // mutate the other and so rapid switching can't interleave mutations.
+  const impRespondents = useRef<RespondentGroup[]>([]);
+  const perfRespondents = useRef<RespondentGroup[]>([]);
+  // Keep a stable object identity for the returned refs so consumers
+  // won't see a new object each render.
+  const respondentsObjRef = useRef<RespondentsRef>({ imp: impRespondents, perf: perfRespondents });
 
   useEffect(() => {
-    // Reset state when characteristic is null (no characteristic selected)
+    // This will run whenever the breakpoint or characterstic changes,
+    // So we should always clear both respondents refs here
+    impRespondents.current = [];
+    perfRespondents.current = [];
+    // Reset the data state when characteristic is null (no characteristic selected)
     if (!characteristic) {
       setDataState({
         state: "idle",
@@ -123,30 +270,55 @@ export const useCharacteristicData = ({
         } catch (jsonError) {
           console.error("JSON parsing error:", jsonError);
           throw new Error(`Failed to parse JSON data for ${characteristic}/${breakpoint}: ${jsonError}`);
-        }        // Generate image filenames dynamically from config
-        const { parties, shades } = vizConfig.colorConfig;
-        const radius = vizConfig.layouts.find(layout => layout.breakpoint === breakpoint)?.pointRadius || 4;
+        }
 
-        const imageFileNames: string[] = [];
-        parties.forEach(party => {
-          shades.forEach(shade => {
-            imageFileNames.push(`circle-${party}-${shade}-r${radius}.png`);
+
+
+        //construct image objects
+        const unLoadedImages: Image[] = []
+        //loop through each layout
+        typedVizConfig.layouts.forEach((layout) => {
+          //loop through each party value
+          typedVizConfig.colorConfig.parties.forEach((party) => {
+            //loop through the shades for the collapsed response groups
+            typedVizConfig.colorConfig.shades.collapsed.forEach((shade) => {
+              unLoadedImages.push({
+                breakpoint: layout.breakpoint,
+                party: party,
+                responsesExpanded: "collapsed",
+                responseIndex: shade[0],
+                imagePath: `circles/${layout.breakpoint}/${party}/collapsed/${shade[0].toString()}.png`,
+                image: new Image()
+              })
+            })
+            //loop through the shades for the expanded response groups
+            typedVizConfig.colorConfig.shades.expanded.forEach((shade) => {
+              unLoadedImages.push({
+                breakpoint: layout.breakpoint,
+                party: party,
+                responsesExpanded: "expanded",
+                responseIndex: shade[0],
+                imagePath: `circles/${layout.breakpoint}/${party}/expanded/${shade[0].toString()}.png`,
+                image: new Image()
+              })
+            })
+          })
+        })
+        // try to load images
+        const imagePromises = unLoadedImages.map((image) => {
+          return new Promise<Image>((resolve, reject) => {
+            image.image.onload = () => resolve(image);
+            image.image.onerror = () => reject(new Error(`Failed to load image: ${image.imagePath}`));
+            image.image.src = image.imagePath
           });
         });
+        const images = await Promise.all(imagePromises);
+        //previous line throws if any image failes to load.
 
-        // Load all images as Image objects
-        const imagePromises = imageFileNames.map((fileName) => {
-          return new Promise<[string, HTMLImageElement]>((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => resolve([fileName, img]);
-            img.onerror = () => reject(new Error(`Failed to load image: ${fileName}`));
-            img.src = `/generated-points/${breakpoint}/${fileName}`;
-          });
-        });
-
-        const imageResults = await Promise.all(imagePromises);
-        const images = Object.fromEntries(imageResults);
-
+        //if we get here, everything loaded successfully...
+        //we can populate the respondents refs and set the data state to ready
+        impRespondents.current = populateRespondents({ impData, perfData, images }, "imp", breakpoint);
+        perfRespondents.current = populateRespondents({ impData, perfData, images }, "perf", breakpoint);
         setDataState({
           state: "ready",
           data: {
@@ -158,7 +330,7 @@ export const useCharacteristicData = ({
         });
       } catch (error) {
         console.error("Data loading error:", error);
-        console.error("Attempted URLs:", `/imp/${characteristic}/${breakpoint}.gz`, `/perf/${characteristic}/${breakpoint}.gz`);
+        console.error("Attempted data URLs:", `/imp/${characteristic}/${breakpoint}.gz`, `/perf/${characteristic}/${breakpoint}.gz`);
         setDataState({
           state: "error",
           data: null,
@@ -170,7 +342,7 @@ export const useCharacteristicData = ({
     loadCharacteristicData();
   }, [characteristic, breakpoint]);
 
-  return dataState;
+  return [dataState, respondentsObjRef.current];
 };
 
-export type { DataLoadingState, CharacteristicDataState };
+export type { DataLoadingState, CharacteristicDataState, RespondentsRef };

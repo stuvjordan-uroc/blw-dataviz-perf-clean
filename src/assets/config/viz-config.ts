@@ -19,8 +19,17 @@ export interface Layout {
   partyGap: number;
   labelHeight: number;
 }
+export interface ColorConfig {
+  parties: string[];
+  shades: {
+    expanded: [number, string][],
+    collapsed: [number, string][]
+  };
+  cssPrefix: string
+}
 export interface VizConfig {
   sample_size: number;
   layouts: Layout[];
+  colorConfig: ColorConfig;
 };
 

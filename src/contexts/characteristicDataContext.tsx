@@ -1,9 +1,12 @@
 import React from "react";
 import { CharacteristicDataContext } from "./characteristicDataContextValue";
-import type { CharacteristicDataState } from "../hooks/useCharacteristicData";
+import type {
+  CharacteristicDataState,
+  RespondentsRef,
+} from "../hooks/useCharacteristicData";
 
 export const CharacteristicDataProvider: React.FC<{
-  value: CharacteristicDataState;
+  value: [CharacteristicDataState, RespondentsRef];
   children: React.ReactNode;
 }> = ({ value, children }) => {
   return (
