@@ -45,11 +45,11 @@ when split-by-party true, show party colors + shades
 
 DONE
 
-## wave labels
+## test and refine positioning of WaveLabels
 
-## percentage labels
+## Percentage labels
 
-## party labels
+## Party labels
 
 ## Not enough variation in shades of yellow on points
 
