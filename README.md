@@ -206,6 +206,47 @@ chmod +x scripts/setup-dev.sh
 - **Compressed data** preserved for efficient browser delivery
 - **Smart caching** prevents unnecessary re-downloads
 
+### Data Manifest Plugin
+
+The build process includes a **custom Vite plugin** that automatically generates a data availability manifest during development and build time.
+
+**Plugin Function (`generateDataManifest`)**:
+
+- **Trigger**: Runs on every `buildStart` hook (development server start and production builds)
+- **Scans**: Both `public/imp/` and `public/perf/` directories
+- **Generates**: `src/assets/config/data-manifest.json` with complete data availability mapping
+
+**Manifest Structure**:
+
+```json
+{
+  "characteristics": {
+    "characteristic_name": {
+      "imp": ["large", "medium", "small", "xLarge"], // Available breakpoints
+      "perf": ["large", "medium", "small", "xLarge"] // Available breakpoints
+    }
+  }
+}
+```
+
+**Purpose**:
+
+- **Eliminates 404 errors** - The application checks the manifest before attempting to fetch data files
+- **Optimizes performance** - Only fetches files that actually exist
+- **Handles mixed availability** - Some characteristics exist only in `imp/` or only in `perf/` folders
+- **Build-time validation** - Ensures data consistency between development and production
+
+**Example**: The `military_neutral` characteristic appears in the manifest as:
+
+```json
+"military_neutral": {
+  "imp": [],                                          // No importance data
+  "perf": ["large", "medium", "small", "xLarge"]     // Full performance data
+}
+```
+
+This allows `useCharacteristicData` to skip fetching `imp/military_neutral/*` files entirely, preventing "invalid gzip" errors from 404 responses.
+
 ## 📝 Contributing
 
 1. Run `npm run setup-dev` for first-time setup

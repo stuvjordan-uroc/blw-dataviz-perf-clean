@@ -13,12 +13,14 @@ import vizConfig from "../assets/config/viz-config.json";
 const typedVizConfig = vizConfig as VizConfig
 import metaPerf from "../assets/config/meta-perf.json";
 import metaImp from "../assets/config/meta-imp.json";
+import dataManifest from "../assets/config/data-manifest.json";
+import type { DataManifest } from "../types/data-manifest";
 
 // Types for data loading state
 type DataLoadingState = "idle" | "pending" | "ready" | "error";
 
 
-interface Image {
+export interface Image {
   breakpoint: string,
   party: string,
   responsesExpanded: "collapsed" | "expanded",
@@ -206,16 +208,32 @@ export const useCharacteristicData = ({
     // Different breakpoints require different data files for the same characteristic
     const loadCharacteristicData = async (): Promise<void> => {
       try {
-        // Load gzipped JSON data from both imp and perf folders
-        const impResponse = await fetch(`/imp/${characteristic}/${breakpoint}.gz`);
-        const perfResponse = await fetch(`/perf/${characteristic}/${breakpoint}.gz`);
+        // Check manifest for data availability
+        const manifest = dataManifest as DataManifest;
+        const charData = manifest.characteristics[characteristic];
+
+        if (!charData) {
+          throw new Error(`Characteristic '${characteristic}' not found in data manifest`);
+        }
+
+        const hasImpData = charData.imp.includes(breakpoint);
+        const hasPerfData = charData.perf.includes(breakpoint);
+
+        //console.warn(`Data availability for ${characteristic}/${breakpoint}: imp=${hasImpData}, perf=${hasPerfData}`);
 
         // Check if at least one file exists - it's valid to have only imp OR only perf data
-        if (!impResponse.ok && !perfResponse.ok) {
+        if (!hasImpData && !hasPerfData) {
           throw new Error(`No data files found for ${characteristic}/${breakpoint} in either imp or perf folders`);
         }
 
-        // Helper function to create empty CoordinateData structure
+        // Only fetch files that we know exist
+        const impResponsePromise = hasImpData ? fetch(`/imp/${characteristic}/${breakpoint}.gz`) : null;
+        const perfResponsePromise = hasPerfData ? fetch(`/perf/${characteristic}/${breakpoint}.gz`) : null;
+
+        const [impResponse, perfResponse] = await Promise.all([
+          impResponsePromise,
+          perfResponsePromise
+        ]);        // Helper function to create empty CoordinateData structure
         const createEmptyCoordinateData = (): CoordinateData => ({
           splits: [],
           unsplitPositions: {
@@ -226,17 +244,27 @@ export const useCharacteristicData = ({
         });
 
         // Helper function to get JSON string from uint8 array (auto-detect compression)
-        const getJsonString = (uint8Array: Uint8Array): string => {
+        const getJsonString = (uint8Array: Uint8Array, filename: string): string => {
           // Check if data looks already decompressed (starts with '{' or '[')
           const firstChar = String.fromCharCode(uint8Array[0]);
 
+          console.warn(`Processing ${filename}: first byte = ${uint8Array[0]} (char: '${firstChar}'), length = ${uint8Array.length}`);
+
           if (firstChar === '{' || firstChar === '[') {
             // Server auto-decompressed - use data as-is
+            console.warn(`${filename}: Using already decompressed data`);
             return strFromU8(uint8Array);
           } else {
             // Manual decompression needed - server served raw gzipped bytes
-            const decompressed = gunzipSync(uint8Array);
-            return strFromU8(decompressed);
+            console.warn(`${filename}: Attempting manual decompression`);
+            try {
+              const decompressed = gunzipSync(uint8Array);
+              return strFromU8(decompressed);
+            } catch (gzipError) {
+              console.error(`${filename}: Gzip decompression failed:`, gzipError);
+              console.error(`${filename}: First 20 bytes:`, Array.from(uint8Array.slice(0, 20)));
+              throw new Error(`Failed to decompress ${filename}: ${gzipError}`);
+            }
           }
         };
 
@@ -246,24 +274,30 @@ export const useCharacteristicData = ({
 
         try {
           // Handle imp data
-          if (impResponse.ok) {
+          if (impResponse && impResponse.ok) {
+            console.warn(`Processing imp data: fetching arrayBuffer...`);
             const impArrayBuffer = await impResponse.arrayBuffer();
             const impUint8Array = new Uint8Array(impArrayBuffer);
-            const impJsonString = getJsonString(impUint8Array);
+            const impJsonString = getJsonString(impUint8Array, `imp/${characteristic}/${breakpoint}.gz`);
             impData = JSON.parse(impJsonString) as CoordinateData;
+            console.warn(`Successfully parsed imp data`);
           } else {
             // No imp data available - use empty structure
+            console.warn(`No imp data found for ${characteristic}/${breakpoint}, using empty structure`);
             impData = createEmptyCoordinateData();
           }
 
           // Handle perf data
-          if (perfResponse.ok) {
+          if (perfResponse && perfResponse.ok) {
+            console.warn(`Processing perf data: fetching arrayBuffer...`);
             const perfArrayBuffer = await perfResponse.arrayBuffer();
             const perfUint8Array = new Uint8Array(perfArrayBuffer);
-            const perfJsonString = getJsonString(perfUint8Array);
+            const perfJsonString = getJsonString(perfUint8Array, `perf/${characteristic}/${breakpoint}.gz`);
             perfData = JSON.parse(perfJsonString) as CoordinateData;
+            console.warn(`Successfully parsed perf data`);
           } else {
             // No perf data available - use empty structure
+            console.warn(`No perf data found for ${characteristic}/${breakpoint}, using empty structure`);
             perfData = createEmptyCoordinateData();
           }
 

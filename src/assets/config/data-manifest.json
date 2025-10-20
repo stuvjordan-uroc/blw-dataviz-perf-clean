@@ -1,0 +1,478 @@
+{
+  "characteristics": {
+    "ban_ideology": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "candidates_disclose": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "common_und": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "compromise": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "concede_defeat": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "contributions": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "districts": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "election_fraud": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "equal_enforce": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "equal_rights": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "expand_executive": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "foreign_influence": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "free_speech": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "funds_transparent": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "gov_stats": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "investigations": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "journalists": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "judicial_ind": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "judiciary_check": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "legislature_check": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "misconduct": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "monitor_opponents": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "opinions": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "participation": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "patriotism": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "private_gain": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "private_violence": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "protest": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "votes_impact": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "voting_rights": {
+      "imp": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "foreign": {
+      "imp": [],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "law_neutral": {
+      "imp": [],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "military_neutral": {
+      "imp": [],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "org_pressure": {
+      "imp": [],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "use_law": {
+      "imp": [],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    },
+    "use_military": {
+      "imp": [],
+      "perf": [
+        "large",
+        "medium",
+        "small",
+        "xLarge"
+      ]
+    }
+  }
+}

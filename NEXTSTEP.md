@@ -43,6 +43,10 @@ layout/data conditionon on responsesExpanded state
 when split-by-party false, show yellow points with response
 when split-by-party true, show party colors + shades
 
+DONE
+
+## wave labels
+
 ## Not enough variation in shades of yellow on points
 
 ## increase fractional magnitude of difference between partygap and responsegap
@@ -52,8 +56,6 @@ when split-by-party true, show party colors + shades
 ## Change text of VizHeader...it needs to refer to the characteristic displayed about.
 
 ## Sad face emoji on canvas when there is a error in allocating respondent positions.
-
-## Loading of military interference characterstics is failing.
 
 ## All downloaded type defs are in meta.json. Fix data generation and download to get rid of coordinate type files.
 

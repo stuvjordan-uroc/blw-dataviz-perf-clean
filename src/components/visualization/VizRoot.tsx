@@ -4,10 +4,12 @@ import "./VizRoot.css";
 import { useState } from "react";
 //types
 import type { ReactElement } from "react";
+import type { VizTab } from "../Viz";
+//components
 import VizHeader from "./VizHeader";
 import VizControls from "./VizControls";
-import type { VizTab } from "../Viz";
 import VizCanvas from "./VizCanvas";
+import VizLegend from "./VizLegend";
 
 export type RequestedSplit =
   | {
@@ -50,6 +52,11 @@ export function VizRoot({ vizTab }: { vizTab: VizTab }): ReactElement {
         vizTab={vizTab}
         requestedSplit={requestedSplit}
         responsesExpanded={responsesExpanded}
+      />
+      <VizLegend
+        requestedSplit={requestedSplit}
+        responsesExpanded={responsesExpanded}
+        vizTab={vizTab}
       />
     </div>
   );

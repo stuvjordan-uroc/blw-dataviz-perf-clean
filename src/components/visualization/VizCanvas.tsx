@@ -80,13 +80,21 @@ export default function VizCanvas({
           Sorry, but something went wrong!
         </div>
       )}
+      {/* successful data loading */}
       {characteristicData.state !== "error" && (
-        <canvas
-          ref={canvasRef}
-          className="viz-canvas"
-          width={canvasDimensions.width}
-          height={canvasDimensions.height}
-        />
+        <>
+          <div
+            style={{ color: "white", position: "absolute", top: 0, left: 0 }}
+          >
+            wave labels
+          </div>
+          <canvas
+            ref={canvasRef}
+            className="viz-canvas"
+            width={canvasDimensions.width}
+            height={canvasDimensions.height}
+          />
+        </>
       )}
     </div>
   );
