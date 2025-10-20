@@ -47,6 +47,10 @@ DONE
 
 ## wave labels
 
+## percentage labels
+
+## party labels
+
 ## Not enough variation in shades of yellow on points
 
 ## increase fractional magnitude of difference between partygap and responsegap
