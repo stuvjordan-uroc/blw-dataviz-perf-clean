@@ -129,4 +129,5 @@ body {
   align-items: center;
   /* overflow: hidden;  -- handled above */
   background-color: var(--blw-whale900);
+  position: relative;
 }

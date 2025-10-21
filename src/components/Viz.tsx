@@ -1,3 +1,5 @@
+//css
+import "./Viz.css";
 //types
 import type { ReactElement } from "react";
 //components

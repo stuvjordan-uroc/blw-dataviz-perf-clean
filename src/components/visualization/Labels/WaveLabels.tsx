@@ -1,25 +1,50 @@
 //css
 import "./WaveLabels.css";
 //types
+import type { ReactElement } from "react";
+import type { RequestedSplit } from "../VizRoot";
+import type { VizConfig, Layout } from "../../../assets/config/viz-config";
 //hooks
-import useWaveLabels from "../../../hooks/useWaveLabels";
 import { useCharacteristicDataContext } from "../../../contexts/useCharacteristicDataContext";
-import { type ReactElement } from "react";
+import { useContext } from "react";
+//context
+import { BreakpointContext } from "../../../contexts/breakpointContext";
+//components
+import WaveLabel from "./WaveLabel";
 //config
-// config and layout logic moved to useWaveLabels hook
+import vizConfig from "../../../assets/config/viz-config.json";
+import metaImp from "../../../assets/config/meta-imp.json";
+import metaPerf from "../../../assets/config/meta-perf.json";
 
 interface WaveLabelsProps {
   vizTab: "imp" | "perf";
+  requestedSplit: RequestedSplit;
+  containerRect: DOMRect;
 }
 
 export default function WaveLabels({
   vizTab,
+  requestedSplit,
+  containerRect,
 }: WaveLabelsProps): ReactElement | null {
-  const { includedWaves, labelRefMap, labelHeights, currentLayout } =
-    useWaveLabels(vizTab);
-  //render nothing if there is no data being displayed
   const characteristicData = useCharacteristicDataContext()[0];
+  const breakpoint = useContext(BreakpointContext);
+  //waves included for the currently-loaded characteristic and vizTab
+  const meta = vizTab === "imp" ? metaImp : metaPerf;
+  const includedWaves = [] as [string, number[]][];
+  if (characteristicData.state === "ready" && characteristicData.data) {
+    characteristicData.data[
+      vizTab === "imp" ? "impData" : "perfData"
+    ].waves.forEach((waveResponseGroupIdx) => {
+      const includedWave = meta.wave.response_groups[waveResponseGroupIdx];
+      if (includedWave) {
+        includedWaves.push(includedWave as [string, number[]]);
+      }
+    });
+  }
+  // Guard early and return null when nothing to render
   if (
+    !requestedSplit.wave ||
     !(characteristicData.state === "ready") ||
     !characteristicData.data ||
     includedWaves.length === 0
@@ -27,43 +52,29 @@ export default function WaveLabels({
     return null;
   }
   //if we get here, data is being displayed, and there are wave labels to be shown
-  return (
-    <>
-      {includedWaves.map((includedWave, includedWaveIdx) => {
-        const top =
-          currentLayout.labelHeight +
-          includedWaveIdx *
-            (currentLayout.labelHeight + currentLayout.waveHeight) +
-          0.5 * currentLayout.waveHeight -
-          0.5 *
-            (labelHeights
-              ? labelHeights.has(includedWave[0])
-                ? labelHeights.get(includedWave[0])!
-                : 0
-              : 0);
-        return (
-          <div
-            key={includedWaveIdx}
-            ref={(el: HTMLDivElement | null) => {
-              if (!labelRefMap.current) {
-                labelRefMap.current = new Map();
-              }
-              if (el) {
-                labelRefMap.current.set(includedWave[0], el);
-              } else {
-                labelRefMap.current.delete(includedWave[0]);
-              }
-            }}
-            style={{
-              position: "absolute",
-              left: 0,
-              top: top,
-            }}
-          >
-            includedWave[0]
-          </div>
-        );
-      })}
-    </>
+
+  //compute the right offset for labels
+
+  const typedVizConfig = vizConfig as VizConfig;
+  const foundCurrentLayout = typedVizConfig.layouts.find(
+    (layout) => layout.breakpoint === breakpoint
   );
+  const currentLayout: Layout = foundCurrentLayout
+    ? foundCurrentLayout
+    : typedVizConfig.layouts[0];
+  const canvasMarginX = (containerRect.width - currentLayout.vizWidth) / 2;
+  const right = canvasMarginX + currentLayout.vizWidth;
+
+  const labelNodes = includedWaves.map((includedWave, includedWaveIdx) => {
+    return (
+      <WaveLabel
+        labelText={includedWave[0]}
+        right={right}
+        waveIndex={includedWaveIdx}
+        key={includedWaveIdx}
+      />
+    );
+  });
+
+  return <>{labelNodes}</>;
 }

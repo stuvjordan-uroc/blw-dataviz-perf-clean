@@ -47,9 +47,9 @@ DONE
 
 ## test and refine positioning of WaveLabels
 
-## Percentage labels
+DONE
 
-## Party labels
+## Percentage labels
 
 ## Not enough variation in shades of yellow on points
 

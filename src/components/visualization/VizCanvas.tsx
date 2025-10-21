@@ -9,8 +9,10 @@ import { useBreakpointContext } from "../../hooks/useBreakpointContext";
 import { useCharacteristicDataContext } from "../../contexts/useCharacteristicDataContext";
 import useCanvas from "../../hooks/useCanvas";
 import useCanvasDimensions from "../../hooks/useCanvasDimensions";
+import useElementRefAndRect from "../../hooks/useElementRefAndRect";
 //components
 import Spinner from "../elements/Spinner";
+import WaveLabels from "./Labels/WaveLabels";
 
 interface VizCanvasProps {
   vizTab: VizTab;
@@ -41,8 +43,13 @@ export default function VizCanvas({
     vizTab,
   });
 
+  //ref, state, and useLayoutEffect to get the dimensions of the canvas container
+  const [containerRef, containerRect] = useElementRefAndRect<HTMLDivElement>([
+    breakpoint,
+  ]);
+
   return (
-    <div className="canvas-container">
+    <div className="canvas-container" ref={containerRef}>
       {/*  Loading Spinner, Error Indicator,  here  */}
       {characteristicData.state === "pending" && (
         <div style={{ position: "absolute", top: "50%", left: "50%" }}>
@@ -83,11 +90,11 @@ export default function VizCanvas({
       {/* successful data loading */}
       {characteristicData.state !== "error" && (
         <>
-          <div
-            style={{ color: "white", position: "absolute", top: 0, left: 0 }}
-          >
-            wave labels
-          </div>
+          <WaveLabels
+            containerRect={containerRect}
+            requestedSplit={requestedSplit}
+            vizTab={vizTab}
+          />
           <canvas
             ref={canvasRef}
             className="viz-canvas"

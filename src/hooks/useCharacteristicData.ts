@@ -219,7 +219,7 @@ export const useCharacteristicData = ({
         const hasImpData = charData.imp.includes(breakpoint);
         const hasPerfData = charData.perf.includes(breakpoint);
 
-        //console.warn(`Data availability for ${characteristic}/${breakpoint}: imp=${hasImpData}, perf=${hasPerfData}`);
+
 
         // Check if at least one file exists - it's valid to have only imp OR only perf data
         if (!hasImpData && !hasPerfData) {
@@ -248,15 +248,11 @@ export const useCharacteristicData = ({
           // Check if data looks already decompressed (starts with '{' or '[')
           const firstChar = String.fromCharCode(uint8Array[0]);
 
-          console.warn(`Processing ${filename}: first byte = ${uint8Array[0]} (char: '${firstChar}'), length = ${uint8Array.length}`);
-
           if (firstChar === '{' || firstChar === '[') {
             // Server auto-decompressed - use data as-is
-            console.warn(`${filename}: Using already decompressed data`);
             return strFromU8(uint8Array);
           } else {
             // Manual decompression needed - server served raw gzipped bytes
-            console.warn(`${filename}: Attempting manual decompression`);
             try {
               const decompressed = gunzipSync(uint8Array);
               return strFromU8(decompressed);
@@ -275,29 +271,27 @@ export const useCharacteristicData = ({
         try {
           // Handle imp data
           if (impResponse && impResponse.ok) {
-            console.warn(`Processing imp data: fetching arrayBuffer...`);
             const impArrayBuffer = await impResponse.arrayBuffer();
             const impUint8Array = new Uint8Array(impArrayBuffer);
             const impJsonString = getJsonString(impUint8Array, `imp/${characteristic}/${breakpoint}.gz`);
             impData = JSON.parse(impJsonString) as CoordinateData;
-            console.warn(`Successfully parsed imp data`);
+
           } else {
             // No imp data available - use empty structure
-            console.warn(`No imp data found for ${characteristic}/${breakpoint}, using empty structure`);
+
             impData = createEmptyCoordinateData();
           }
 
           // Handle perf data
           if (perfResponse && perfResponse.ok) {
-            console.warn(`Processing perf data: fetching arrayBuffer...`);
             const perfArrayBuffer = await perfResponse.arrayBuffer();
             const perfUint8Array = new Uint8Array(perfArrayBuffer);
             const perfJsonString = getJsonString(perfUint8Array, `perf/${characteristic}/${breakpoint}.gz`);
             perfData = JSON.parse(perfJsonString) as CoordinateData;
-            console.warn(`Successfully parsed perf data`);
+
           } else {
             // No perf data available - use empty structure
-            console.warn(`No perf data found for ${characteristic}/${breakpoint}, using empty structure`);
+
             perfData = createEmptyCoordinateData();
           }
 

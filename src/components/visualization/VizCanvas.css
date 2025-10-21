@@ -1,6 +1,7 @@
 .canvas-container {
   width: 100%;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: visible;
   display: flex;
   flex-direction: column;
   align-items: center;
