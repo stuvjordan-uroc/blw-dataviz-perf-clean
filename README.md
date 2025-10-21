@@ -38,11 +38,11 @@ npm run dev
 │   │   └── [29 more characteristics...]
 │   ├── perf/                  # Performance characteristics data
 │   │   └── [~30 characteristics with same structure]
-│   └── circles/      # Generated PNG circles for visualization (auto-generated)
-│       ├── small/             # 16 circles at 3px radius
-│       ├── medium/            # 16 circles at 4px radius
-│       ├── large/             # 16 circles at 4px radius
-│       └── xLarge/            # 16 circles at 4px radius
+   └── circles/      # Generated PNG circles for visualization (auto-generated at build time)
+       ├── small/             # 16 circles at 3px radius
+       ├── medium/            # 16 circles at 4px radius
+       ├── large/             # 16 circles at 4px radius
+       └── xLarge/            # 16 circles at 4px radius
 ├── src/
 │   ├── assets/
 │   │   └── config/
@@ -63,15 +63,14 @@ npm run dev
 
 ## 🛠️ Development Commands
 
-| Command                        | Description                                                   |
-| ------------------------------ | ------------------------------------------------------------- |
-| `npm run setup-dev`            | **First-time setup** - Run this when you first clone the repo |
-| `npm run dev`                  | Start development server                                      |
-| `npm run generate-circle-pngs` | Generate PNG circles for data visualization points            |
-| `npm run fetch-data`           | Re-download data files from S3 (when data updates)            |
-| `npm run fetch-data:force`     | Force re-download all files (ignore cache)                    |
-| `npm run build`                | Build for production                                          |
-| `npm run lint`                 | Run ESLint                                                    |
+| Command                    | Description                                                   |
+| -------------------------- | ------------------------------------------------------------- |
+| `npm run setup-dev`        | **First-time setup** - Run this when you first clone the repo |
+| `npm run dev`              | Start development server (auto-generates circle PNGs)         |
+| `npm run fetch-data`       | Re-download data files from S3 (when data updates)            |
+| `npm run fetch-data:force` | Force re-download all files (ignore cache)                    |
+| `npm run build`            | Build for production (auto-generates circle PNGs)             |
+| `npm run lint`             | Run ESLint                                                    |
 
 ## 🔐 AWS Configuration
 
@@ -111,62 +110,69 @@ aws sso login --profile default
 - **Caching enabled** - re-running fetch-data only downloads changed files
 - **13MB total** - reasonable size for development
 
-## 🎨 PNG Point Generation
+## 🎨 Automated PNG Circle Generation
 
-The project includes automated PNG generation for data visualization points using the Canvas API.
+The project automatically generates PNG circles for data visualization points using a custom Vite plugin that runs during build start.
 
 ### What Gets Generated
 
-**64 PNG circles total** across 4 responsive breakpoints:
+**96 PNG circles total** across 4 responsive breakpoints:
 
-- **Small** (3px radius): 16 circles
-- **Medium** (4px radius): 16 circles
-- **Large** (4px radius): 16 circles
-- **xLarge** (4px radius): 16 circles
+- **Small** (3px radius): 24 circles
+- **Medium** (4px radius): 24 circles
+- **Large** (4px radius): 24 circles
+- **xLarge** (4px radius): 24 circles
 
-**Each breakpoint includes 16 circles with political party colors:**
+**Each breakpoint includes circles with political party colors:**
 
-- **4 Goldenrod** (brand): shades 700, 500, 300, 100
-- **4 Republican** (red): shades 700, 500, 300, 100
-- **4 Democrat** (blue): shades 700, 500, 300, 100
-- **4 Independent** (purple): shades 700, 500, 300, 100
+- **Goldenrod** (brand/no party): Multiple shades for expanded/collapsed views
+- **Republican** (red): Multiple shades for expanded/collapsed views
+- **Democrat** (blue): Multiple shades for expanded/collapsed views
+- **Independent** (purple): Multiple shades for expanded/collapsed views
 
 ### File Organization
 
 ```
-public/generated-points/
-├── small/     # circle-{party}-{shade}-r3.png
-├── medium/    # circle-{party}-{shade}-r4.png
-├── large/     # circle-{party}-{shade}-r4.png
-└── xLarge/    # circle-{party}-{shade}-r4.png
+public/circles/
+├── small/
+│   ├── Democrat/
+│   │   ├── expanded/    # {0,1,2,3,4}.png
+│   │   └── collapsed/   # {0,1}.png
+│   ├── Republican/
+│   ├── Independent/
+│   └── Noparty/
+├── medium/    # Same structure
+├── large/     # Same structure
+└── xLarge/    # Same structure
 ```
 
-**Examples:**
+### Automated Process
 
-- `circle-republican-500-r3.png` - Republican base color, 3px radius
-- `circle-democrat-700-r4.png` - Democrat dark shade, 4px radius
-- `circle-goldenrod-100-r4.png` - Goldenrod light shade, 4px radius
+**Circle PNGs are automatically generated during:**
 
-### Usage
+- **Development server start** (`npm run dev`)
+- **Production builds** (`npm run build`)
+- **Any Vite build start event**
 
-```bash
-npm run generate-png-points
-```
+**The generation process:**
 
-**Run this when:**
-
-- Setting up development environment
-- Colors change in `src/index.css`
-- Layout configurations change in `src/assets/config/viz-config.json`
-- PNG assets need regeneration
+1. **Reads color definitions** from `src/index.css`
+2. **Reads configuration** from `src/assets/config/viz-config.json`
+3. **Creates Canvas-based circles** for each combination of:
+   - Breakpoint (determines radius)
+   - Political party (determines color base)
+   - Shade/response group (determines specific color)
+   - View state (expanded vs collapsed)
 
 ### Technical Details
 
+- **Vite plugin integration** - Runs automatically at build start
 - **Canvas-based generation** - No browser dependency
 - **Anti-aliasing enabled** - Smooth, high-quality circles
 - **Transparent backgrounds** - Ready for overlay
 - **Responsive sizing** - Matches breakpoint configurations
 - **Color accuracy** - Exact HSL values from CSS custom properties
+- **Configuration-driven** - Automatically updates when colors or layouts change
 
 ## 🔧 Troubleshooting
 
@@ -206,9 +212,13 @@ chmod +x scripts/setup-dev.sh
 - **Compressed data** preserved for efficient browser delivery
 - **Smart caching** prevents unnecessary re-downloads
 
-### Data Manifest Plugin
+### Build-Time Plugins
 
-The build process includes a **custom Vite plugin** that automatically generates a data availability manifest during development and build time.
+The build process includes **custom Vite plugins** that run automatically during development and build time:
+
+#### Data Manifest Plugin
+
+Automatically generates a data availability manifest.
 
 **Plugin Function (`generateDataManifest`)**:
 
@@ -246,6 +256,24 @@ The build process includes a **custom Vite plugin** that automatically generates
 ```
 
 This allows `useCharacteristicData` to skip fetching `imp/military_neutral/*` files entirely, preventing "invalid gzip" errors from 404 responses.
+
+#### Circle PNG Generation Plugin
+
+Automatically generates visualization circle PNGs during build start.
+
+**Plugin Function (`generateCirclePNGs`)**:
+
+- **Trigger**: Runs on every `buildStart` hook alongside the data manifest plugin
+- **Reads**: Color definitions from `src/index.css` and layout configurations from `src/assets/config/viz-config.json`
+- **Generates**: PNG circle images in `public/circles/` for all breakpoint/party/shade combinations
+- **Output**: 96 total PNG files organized by breakpoint, party, and response view state
+
+**Benefits**:
+
+- **Always up-to-date** - Regenerates whenever colors or configurations change
+- **No manual intervention** - Fully automated as part of the build process
+- **Development efficiency** - No need to remember to run separate generation commands
+- **Build consistency** - Ensures production builds always have current assets
 
 ## 📝 Contributing
 

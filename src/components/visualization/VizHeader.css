@@ -1,3 +1,13 @@
 .viz-header {
-  background-color: var(--blw-gray300);
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+@media (width <=600px) {
+  .viz-header {
+    padding: 0.5rem;
+  }
 }

@@ -26,10 +26,15 @@ export function VizTabSelect({
       }}
       className="viz-tabs-root"
     >
-      <Tabs.List>
+      <Tabs.List className="viz-tabs-list">
         {["imp", "perf"].map((vt) => (
-          <Tabs.Trigger value={vt} key={vt}>
-            {vt === "imp" ? "Importance" : "Performance"}
+          <Tabs.Trigger
+            value={vt}
+            key={vt}
+            className="viz-tabs-trigger"
+            asChild={true}
+          >
+            <div>{vt === "imp" ? "Importance" : "Performance"}</div>
           </Tabs.Trigger>
         ))}
       </Tabs.List>

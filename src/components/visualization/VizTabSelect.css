@@ -1,4 +1,31 @@
-.viz-tab-root {
+.viz-tabs-root {
   width: 100%;
   overflow-x: visible;
+  overflow-y: hidden;
+  background-color: var(--viz-background);
+  flex-grow: 1fr;
+  border: 1px solid var(--blw-gray400);
+  border-radius: 0.2em;
+  margin-bottom: 1rem;
+}
+
+.viz-tabs-list {
+  display: flex;
+  flex-direction: row;
+}
+
+.viz-tabs-trigger {
+  flex: 1;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0.75em;
+  color: var(--blw-gray800);
+  background-color: var(--blw-whale800);
+}
+
+.viz-tabs-trigger[data-state="active"] {
+  font-weight: 600;
+  border-bottom: none;
+  background: transparent;
+  color: inherit;
 }

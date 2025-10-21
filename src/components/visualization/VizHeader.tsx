@@ -14,8 +14,8 @@ export default function VizHeader({
   return (
     <div className="viz-header">
       {vizTab === "imp"
-        ? questions["prefix_importance"]
-        : questions["prefix_performance"]}
+        ? "How important is this characterstic for democratic government?"
+        : "How well does this characteristic describe the U.S. as of today?"}
     </div>
   );
 }

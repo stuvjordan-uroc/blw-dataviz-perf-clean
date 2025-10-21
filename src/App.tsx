@@ -28,8 +28,8 @@ function App(): ReactElement {
 
   return (
     <BreakpointProvider value={breakpoint}>
+      <Header />
       <div className="app">
-        <Header />
         <CharacteristicPicker
           onCharacteristicSelect={handleCharacteristicSelect}
           selectedCharacteristic={requestedCharacteristic}

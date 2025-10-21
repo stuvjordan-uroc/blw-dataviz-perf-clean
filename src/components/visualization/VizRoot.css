@@ -1,3 +1,4 @@
 .viz-root {
-  overflow-x: visible;
+  overflow-x: auto;
+  height: 100%;
 }

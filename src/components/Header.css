@@ -1,6 +1,6 @@
 .app-header {
   text-align: center;
-  width: 100%;
+  width: 100vw;
   font-size: 1.7rem;
   font-weight: 500;
   color: var(--blw-gray100);

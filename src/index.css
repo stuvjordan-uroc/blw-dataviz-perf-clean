@@ -8,25 +8,25 @@
 :root {
   /* colors */
 
-  --blw-goldenrod100: hsl(55, 74%, 88%);
-  --blw-goldenrod200: hsl(55, 74%, 78%);
-  --blw-goldenrod300: hsl(55, 74%, 68%);
-  --blw-goldenrod400: hsl(55, 74%, 58%);
-  --blw-goldenrod500: hsl(55, 74%, 48%);
-  --blw-goldenrod600: hsl(55, 74%, 38%);
-  --blw-goldenrod700: hsl(55, 74%, 28%);
-  --blw-goldenrod800: hsl(55, 74%, 18%);
-  --blw-goldenrod900: hsl(55, 74%, 8%);
+  --blw-goldenrod100: hsl(55, 45%, 95%);
+  --blw-goldenrod200: hsl(55, 55%, 85%);
+  --blw-goldenrod300: hsl(55, 50%, 75%);
+  --blw-goldenrod400: hsl(55, 65%, 70%);
+  --blw-goldenrod500: hsl(55, 65%, 55%);
+  --blw-goldenrod600: hsl(55, 74%, 28%);
+  --blw-goldenrod700: hsl(55, 74%, 18%);
+  --blw-goldenrod800: hsl(55, 74%, 12%);
+  --blw-goldenrod900: hsl(55, 74%, 6%);
 
-  --blw-Noparty100: hsl(55, 74%, 88%);
-  --blw-Noparty200: hsl(55, 74%, 78%);
-  --blw-Noparty300: hsl(55, 74%, 68%);
-  --blw-Noparty400: hsl(55, 74%, 58%);
-  --blw-Noparty500: hsl(55, 74%, 48%);
-  --blw-Noparty600: hsl(55, 74%, 38%);
-  --blw-Noparty700: hsl(55, 74%, 28%);
-  --blw-Noparty800: hsl(55, 74%, 18%);
-  --blw-Noparty900: hsl(55, 74%, 8%);
+  --blw-Noparty100: var(--blw-goldenrod100);
+  --blw-Noparty200: var(--blw-goldenrod200);
+  --blw-Noparty300: var(--blw-goldenrod300);
+  --blw-Noparty400: var(--blw-goldenrod400);
+  --blw-Noparty500: var(--blw-goldenrod500);
+  --blw-Noparty600: var(--blw-goldenrod600);
+  --blw-Noparty700: var(--blw-goldenrod700);
+  --blw-Noparty800: var(--blw-goldenrod800);
+  --blw-Noparty900: var(--blw-goldenrod900);
 
   --blw-Republican100: hsl(355, 75%, 88%);
   --blw-Republican200: hsl(355, 75%, 78%);
@@ -76,13 +76,14 @@
   --blw-whale400: hsl(194, 97%, 60%);
   --blw-whale500: hsl(194, 97%, 50%);
   --blw-whale600: hsl(194, 97%, 40%);
-  --blw-whale700: hsl(194, 97%, 30%);
+  --blw-whale700: hsl(194, 97%, 22%);
   --blw-whale800: hsl(194, 97%, 18%);
-  --blw-whale900: hsl(194, 97%, 6%);
+  --blw-whale900: hsl(194, 97%, 10%);
   /* semantic color vars */
   --color-brand: var(--blw-goldenrod500);
   --blw-whale: var(--blw-whale800);
   --color-text: var(--blw-whale900);
+  --viz-background: hsla(194, 97%, 10%, 0.25);
 
   --header-gradient: linear-gradient(0deg, var(--blw-gray100), var(--color-brand) 10%, var(--blw-gray100) 20%, var(--blw-whale800) 50%);
   --app-gradient: linear-gradient(0deg, var(--color-brand), var(--blw-gray100) 2%, hsl(192, 7%, 50%) 3%, var(--blw-whale800) 15%);
@@ -114,20 +115,31 @@
 /* Prevent any page scrolling */
 html,
 body {
-  height: 100%;
+  height: 100vh;
   margin: 0;
   overflow: hidden;
   font-family: 'Jost', sans-serif;
-  font-size: 16pt;
+  font-size: 14pt;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
+@media (width <=600px) {
+
+  html,
+  body {
+    font-size: 12pt;
+  }
+}
+
+#root {
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   /* overflow: hidden;  -- handled above */
-  background-color: var(--blw-whale900);
+  background: var(--app-gradient);
   position: relative;
+  color: var(--blw-gray200);
 }

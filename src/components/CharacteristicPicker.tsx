@@ -96,8 +96,6 @@ const CharacteristicPicker: React.FC<CharacteristicPickerProps> = ({
 
   return (
     <div className="characteristic-picker">
-      <h2 className="characteristic-picker__title">Select a Characteristic</h2>
-
       <div className="characteristic-picker__dropdown">
         <button
           className={`characteristic-picker__button ${
@@ -107,8 +105,8 @@ const CharacteristicPicker: React.FC<CharacteristicPickerProps> = ({
         >
           <span>
             {selectedPrompt
-              ? selectedPrompt.short_text
-              : "Choose a characteristic..."}
+              ? selectedPrompt.question_text
+              : "Choose a characteristic of democracy..."}
           </span>
           <span
             className={`characteristic-picker__arrow ${
