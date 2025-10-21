@@ -38,7 +38,7 @@ export function Viz({ requestedCharacteristic }: VizProps): ReactElement {
           style={{ display: vizTab === "imp" ? "block" : "none" }}
           className="viz-tab-content"
         >
-          <VizRoot vizTab="imp" />
+          <VizRoot vizTab="imp" activeVizTab={vizTab} />
         </Tabs.Content>
         <Tabs.Content
           value="perf"
@@ -46,7 +46,7 @@ export function Viz({ requestedCharacteristic }: VizProps): ReactElement {
           style={{ display: vizTab === "perf" ? "block" : "none" }}
           className="viz-tab-content"
         >
-          <VizRoot vizTab="perf" />
+          <VizRoot vizTab="perf" activeVizTab={vizTab} />
         </Tabs.Content>
       </VizTabSelect>
     </CharacteristicDataProvider>

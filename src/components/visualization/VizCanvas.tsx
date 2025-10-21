@@ -13,15 +13,18 @@ import useElementRefAndRect from "../../hooks/useElementRefAndRect";
 //components
 import Spinner from "../elements/Spinner";
 import WaveLabels from "./Labels/WaveLabels";
+import Segments from "./Labels/Segments";
 
 interface VizCanvasProps {
   vizTab: VizTab;
+  activeVizTab: VizTab;
   requestedSplit: RequestedSplit;
   responsesExpanded: ResponsesExpanded;
 }
 
 export default function VizCanvas({
   vizTab,
+  activeVizTab,
   requestedSplit,
   responsesExpanded,
 }: VizCanvasProps): ReactElement {
@@ -46,6 +49,8 @@ export default function VizCanvas({
   //ref, state, and useLayoutEffect to get the dimensions of the canvas container
   const [containerRef, containerRect] = useElementRefAndRect<HTMLDivElement>([
     breakpoint,
+    vizTab,
+    activeVizTab === vizTab, // Re-measure when this tab becomes active
   ]);
 
   return (
@@ -90,6 +95,13 @@ export default function VizCanvas({
       {/* successful data loading */}
       {characteristicData.state !== "error" && (
         <>
+          <Segments
+            containerRect={containerRect}
+            requestedSplit={requestedSplit}
+            responsesExpanded={responsesExpanded}
+            vizTab={vizTab}
+            topOffset={0}
+          />
           <WaveLabels
             containerRect={containerRect}
             requestedSplit={requestedSplit}

@@ -3,25 +3,31 @@ import vizConfig from "../assets/config/viz-config.json";
 
 type Breakpoint = (typeof vizConfig.layouts)[number]["breakpoint"];
 
-export const useBreakpoint = (): Breakpoint => {
-  const [current_breakpoint, setCurrent_breakpoint] =
-    useState<Breakpoint>("small");
-
-  // Function to determine breakpoint based on window width
-  const getBreakpointForWidth = (width: number): Breakpoint => {
-    for (const layout of vizConfig.layouts) {
-      const [min, max] = layout.screenWidthRange;
-      if (width >= min && width <= max) {
-        return layout.breakpoint;
-      }
+// Function to determine breakpoint based on window width
+const getBreakpointForWidth = (width: number): Breakpoint => {
+  for (const layout of vizConfig.layouts) {
+    const [min, max] = layout.screenWidthRange;
+    if (width >= min && width <= max) {
+      return layout.breakpoint;
     }
-    // Default fallback to small if no match found
-    return "small";
-  };
+  }
+  // Default fallback to small if no match found
+  return "small";
+};
+
+export const useBreakpoint = (): Breakpoint => {
+  // Initialize with the actual breakpoint based on current window width
+  const [current_breakpoint, setCurrent_breakpoint] = useState<Breakpoint>(() => {
+    // Only run this on the client side
+    if (typeof window !== 'undefined') {
+      return getBreakpointForWidth(window.innerWidth);
+    }
+    return "small"; // SSR fallback
+  });
 
   useEffect(() => {
     // Update breakpoint based on window width
-    const updateBreakpoint = () => {
+    const updateBreakpoint = (): void => {
       const newBreakpoint = getBreakpointForWidth(window.innerWidth);
       if (newBreakpoint !== current_breakpoint) {
         setCurrent_breakpoint(newBreakpoint);

@@ -11,12 +11,12 @@ interface SplitProportions {
   collapsed: SplitProportion[];
 }
 
-interface Wave {
+export interface Wave {
   value: [string, number[]];
   index: number;
 }
 
-interface Party {
+export interface Party {
   value: [string, string[]];
   index: number;
 }
@@ -91,7 +91,7 @@ interface PointPositions {
   data: PointPosition[];
 }
 
-interface Segment {
+export interface Segment {
   topLeftY: number;
   topLeftX: number;
   height: number;
@@ -106,7 +106,7 @@ interface SplitProportionWithCount {
   count: number;
 }
 
-interface SplitProportionWithSegment {
+export interface SplitProportionWithSegment {
   response: [string, string[]];
   proportion: number;
   count: number;

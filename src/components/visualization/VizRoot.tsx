@@ -25,7 +25,13 @@ export type RequestedSplit =
 
 export type ResponsesExpanded = "expanded" | "collapsed";
 
-export function VizRoot({ vizTab }: { vizTab: VizTab }): ReactElement {
+export function VizRoot({
+  vizTab,
+  activeVizTab,
+}: {
+  vizTab: VizTab;
+  activeVizTab: VizTab;
+}): ReactElement {
   //STATES
 
   //requested split
@@ -50,6 +56,7 @@ export function VizRoot({ vizTab }: { vizTab: VizTab }): ReactElement {
       />
       <VizCanvas
         vizTab={vizTab}
+        activeVizTab={activeVizTab}
         requestedSplit={requestedSplit}
         responsesExpanded={responsesExpanded}
       />
