@@ -11,8 +11,8 @@ import { useState } from "react";
 
 interface SegmentProps {
   splitProportionWithSegment: SplitProportionWithSegment;
-  wave: Wave | null;
-  party: Party | null;
+  _wave: Wave | null;
+  _party: Party | null;
   leftOffset: number;
   topOffset: number;
 }

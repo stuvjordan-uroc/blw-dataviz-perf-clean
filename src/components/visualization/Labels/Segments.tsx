@@ -68,8 +68,8 @@ export default function Segments({
             leftOffset={leftOffset}
             topOffset={0}
             splitProportionWithSegment={splitPWithSegment}
-            party={split.party}
-            wave={split.wave}
+            _party={split.party}
+            _wave={split.wave}
             key={`${splitIndex}-${splitPWithSegmentIndex}-${requestedSplit.response}-${requestedSplit.wave}-${requestedSplit.party}-${responsesExpanded}`}
           />
         )

@@ -10,6 +10,7 @@
     "fetch-data:list": "node scripts/fetch-data.js --list",
     "dev": "node --max-old-space-size=4096 ./node_modules/.bin/vite",
     "build": "tsc -b && vite build",
+    "build:deploy": "./scripts/build-deploy.sh",
     "lint": "eslint .",
     "preview": "vite preview"
   },

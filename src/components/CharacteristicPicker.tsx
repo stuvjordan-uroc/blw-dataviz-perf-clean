@@ -12,6 +12,7 @@ import type {
 } from "../types/questions";
 //config
 import questionsData from "../assets/config/questions.json";
+import dataManifest from "../assets/config/data-manifest.json";
 
 interface CharacteristicPickerProps {
   onCharacteristicSelect: (characteristic: string) => void;
@@ -27,31 +28,19 @@ const CharacteristicPicker: React.FC<CharacteristicPickerProps> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const checkDirectoryExists = async (path: string): Promise<boolean> => {
-      try {
-        const response = await fetch(path, { method: "HEAD" });
-        return response.ok;
-      } catch {
-        return false;
-      }
-    };
-
-    const filterAndGroupPrompts = async (): Promise<void> => {
+    const filterAndGroupPrompts = (): void => {
       setIsLoading(true);
       const questions = questionsData as QuestionsData;
 
-      // Filter prompts that have corresponding directories in either public/imp/ or public/perf/
+      // Filter prompts that have corresponding data in the manifest
       const filteredPrompts: QuestionPrompt[] = [];
 
       for (const prompt of questions.prompts) {
-        const impDirExists = await checkDirectoryExists(
-          `/imp/${prompt.variable_name}/`
-        );
-        const perfDirExists = await checkDirectoryExists(
-          `/perf/${prompt.variable_name}/`
-        );
-
-        if (impDirExists || perfDirExists) {
+        const hasData =
+          dataManifest.characteristics[
+            prompt.variable_name as keyof typeof dataManifest.characteristics
+          ];
+        if (hasData && (hasData.imp.length > 0 || hasData.perf.length > 0)) {
           filteredPrompts.push(prompt);
         }
       }

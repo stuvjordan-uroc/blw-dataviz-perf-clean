@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Deployment archives
+deployment-*.zip
+
 # Ignore generated/downloaded data in the public directory
 public/circles/*
 public/imp/*

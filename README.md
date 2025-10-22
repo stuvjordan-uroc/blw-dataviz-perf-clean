@@ -63,14 +63,15 @@ npm run dev
 
 ## 🛠️ Development Commands
 
-| Command                    | Description                                                   |
-| -------------------------- | ------------------------------------------------------------- |
-| `npm run setup-dev`        | **First-time setup** - Run this when you first clone the repo |
-| `npm run dev`              | Start development server (auto-generates circle PNGs)         |
-| `npm run fetch-data`       | Re-download data files from S3 (when data updates)            |
-| `npm run fetch-data:force` | Force re-download all files (ignore cache)                    |
-| `npm run build`            | Build for production (auto-generates circle PNGs)             |
-| `npm run lint`             | Run ESLint                                                    |
+| Command                    | Description                                                       |
+| -------------------------- | ----------------------------------------------------------------- |
+| `npm run setup-dev`        | **First-time setup** - Run this when you first clone the repo     |
+| `npm run dev`              | Start development server (auto-generates circle PNGs)             |
+| `npm run fetch-data`       | Re-download data files from S3 (when data updates)                |
+| `npm run fetch-data:force` | Force re-download all files (ignore cache)                        |
+| `npm run build`            | Build for production (auto-generates circle PNGs)                 |
+| `npm run build:deploy`     | **Build and create deployment package** - Creates timestamped zip |
+| `npm run lint`             | Run ESLint                                                        |
 
 ## 🔐 AWS Configuration
 
@@ -86,7 +87,38 @@ If you need to re-authenticate later:
 aws sso login --profile default
 ```
 
-## 📊 Data Management
+## � Production Deployment
+
+The project includes an automated deployment script that builds the application and creates a production-ready zip archive:
+
+```bash
+npm run build:deploy
+```
+
+This command will:
+
+1. **Build the application** - Runs the full production build process
+2. **Generate assets** - Creates data manifest and circle PNG files
+3. **Create deployment archive** - Packages all files from `dist/` into a timestamped zip
+4. **Clean up old archives** - Keeps only the 5 most recent deployment packages
+5. **Show deployment info** - Displays archive size and contents
+
+**Example output:**
+
+```
+✅ Deployment package created successfully!
+📦 Archive: deployment-20251022-092958.zip
+📏 Size: 13M
+🎯 Ready for deployment: Upload to your production server
+```
+
+**To deploy:**
+
+1. Upload the generated `.zip` file to your production server
+2. Extract the contents to your web server's document root
+3. Ensure the web server can serve static files (HTML, JS, CSS, images)
+
+## �📊 Data Management
 
 ### Data Sources
 

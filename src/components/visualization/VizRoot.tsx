@@ -10,7 +10,6 @@ import type { VizTab } from "../Viz";
 import VizHeader from "./VizHeader";
 import VizControls from "./VizControls";
 import VizCanvas from "./VizCanvas";
-import VizLegend from "./VizLegend";
 import VizLegendHardCoded from "./VizLegendHardCoded";
 
 export type RequestedSplit =
