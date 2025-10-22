@@ -31,14 +31,24 @@ export default function WaveLabels({
   const breakpoint = useContext(BreakpointContext);
   //waves included for the currently-loaded characteristic and vizTab
   const meta = vizTab === "imp" ? metaImp : metaPerf;
-  const includedWaves = [] as [string, number[]][];
+  const includedWaves = [] as {
+    wave: [string, number[]];
+    topLeftY: number | undefined;
+    height: number | undefined;
+  }[];
   if (characteristicData.state === "ready" && characteristicData.data) {
-    characteristicData.data[
-      vizTab === "imp" ? "impData" : "perfData"
-    ].waves.forEach((waveResponseGroupIdx) => {
+    const dataTab = vizTab === "imp" ? "impData" : "perfData";
+    characteristicData.data[dataTab].waves.forEach((waveResponseGroupIdx) => {
       const includedWave = meta.wave.response_groups[waveResponseGroupIdx];
       if (includedWave) {
-        includedWaves.push(includedWave as [string, number[]]);
+        const waveSplit = characteristicData.data![dataTab].splits.find(
+          (split) => split.wave && split.wave.value[0] === includedWave[0]
+        );
+        includedWaves.push({
+          wave: includedWave as [string, number[]],
+          topLeftY: waveSplit?.responses?.expanded[0].segment.topLeftY,
+          height: waveSplit?.responses?.expanded[0].segment.height,
+        });
       }
     });
   }
@@ -68,10 +78,12 @@ export default function WaveLabels({
   const labelNodes = includedWaves.map((includedWave, includedWaveIdx) => {
     return (
       <WaveLabel
-        labelText={includedWave[0]}
+        labelText={includedWave.wave[0]}
         right={right}
         waveIndex={includedWaveIdx}
         key={includedWaveIdx}
+        top={includedWave.topLeftY}
+        height={includedWave.height}
       />
     );
   });

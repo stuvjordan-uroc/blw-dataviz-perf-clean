@@ -1,5 +1,6 @@
 .viz-legend-root {
   overflow: auto;
+  max-width: 80vw;
   position: absolute;
   bottom: 0.5em;
   right: 1em;
