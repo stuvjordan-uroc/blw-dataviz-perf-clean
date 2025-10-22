@@ -31,24 +31,32 @@ export function Viz({ requestedCharacteristic }: VizProps): ReactElement {
   });
   return (
     <CharacteristicDataProvider value={charDataCtx}>
-      <VizTabSelect vizTab={vizTab} setVizTab={setVizTab}>
-        <Tabs.Content
-          value="imp"
-          forceMount
-          style={{ display: vizTab === "imp" ? "block" : "none" }}
-          className="viz-tab-content"
-        >
-          <VizRoot vizTab="imp" activeVizTab={vizTab} />
-        </Tabs.Content>
-        <Tabs.Content
-          value="perf"
-          forceMount
-          style={{ display: vizTab === "perf" ? "block" : "none" }}
-          className="viz-tab-content"
-        >
-          <VizRoot vizTab="perf" activeVizTab={vizTab} />
-        </Tabs.Content>
-      </VizTabSelect>
+      <div className="viz">
+        <VizTabSelect vizTab={vizTab} setVizTab={setVizTab}>
+          <Tabs.Content
+            value="imp"
+            forceMount
+            className={`viz-tab-content ${
+              vizTab === "imp"
+                ? "viz-tab-content--active"
+                : "viz-tab-content--inactive"
+            }`}
+          >
+            <VizRoot vizTab="imp" activeVizTab={vizTab} />
+          </Tabs.Content>
+          <Tabs.Content
+            value="perf"
+            forceMount
+            className={`viz-tab-content ${
+              vizTab === "perf"
+                ? "viz-tab-content--active"
+                : "viz-tab-content--inactive"
+            }`}
+          >
+            <VizRoot vizTab="perf" activeVizTab={vizTab} />
+          </Tabs.Content>
+        </VizTabSelect>
+      </div>
     </CharacteristicDataProvider>
   );
 }

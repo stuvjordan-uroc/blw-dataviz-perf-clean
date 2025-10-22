@@ -1,6 +1,7 @@
 .viz-legend-root {
   display: flex;
   overflow: auto;
+  flex-grow: 0;
 }
 
 .legend-party-responses {

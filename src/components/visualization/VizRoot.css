@@ -1,4 +1,10 @@
 .viz-root {
   overflow-x: auto;
+  overflow-y: hidden;
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  gap: 0.5em;
 }

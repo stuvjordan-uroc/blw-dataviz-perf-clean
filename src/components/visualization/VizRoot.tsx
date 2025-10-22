@@ -45,6 +45,8 @@ export function VizRoot({
   const [responsesExpanded, setResponsesExpanded] =
     useState<ResponsesExpanded>("expanded");
 
+  //show legend
+  const [showLegend, setShowLegend] = useState<boolean>(false);
   return (
     <div className="viz-root">
       <VizHeader vizTab={vizTab} />

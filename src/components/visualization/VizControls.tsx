@@ -44,7 +44,7 @@ export default function VizControls({
   setResponsesExpanded: Dispatch<SetStateAction<ResponsesExpanded>>;
 }): ReactElement {
   return (
-    <>
+    <div className="viz-controls-container">
       <ToggleGroup.Root
         type="multiple"
         value={listOfSplitsOn(requestedSplit)}
@@ -71,7 +71,9 @@ export default function VizControls({
             };
           });
         }}
+        className="viz-controls-root"
       >
+        <div>Split by...</div>
         {["response", "wave", "party"].map((splitDim) => (
           <ToggleGroup.Item
             value={splitDim}
@@ -79,20 +81,36 @@ export default function VizControls({
             key={splitDim}
             className="toggle-split"
           >
-            {`split by ${splitDim}`}
+            {splitDim}
           </ToggleGroup.Item>
         ))}
       </ToggleGroup.Root>
-      <Toggle.Root
-        pressed={responsesExpanded === "collapsed"}
-        onPressedChange={(newPressed) => {
-          setResponsesExpanded(newPressed ? "collapsed" : "expanded");
+      <div
+        style={{
+          flexGrow: 0,
+          flexShrink: 0,
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
         }}
-        disabled={!requestedSplit.response}
-        className="toggle-split"
       >
-        collapse responses
-      </Toggle.Root>
-    </>
+        <Toggle.Root
+          pressed={responsesExpanded === "collapsed"}
+          onPressedChange={(newPressed) => {
+            setResponsesExpanded(newPressed ? "collapsed" : "expanded");
+          }}
+          disabled={!requestedSplit.response}
+          className="toggle-split"
+        >
+          collapse responses
+        </Toggle.Root>
+        <Toggle.Root
+          disabled={!requestedSplit.response}
+          className="toggle-split"
+        >
+          show legend
+        </Toggle.Root>
+      </div>
+    </div>
   );
 }

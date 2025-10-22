@@ -6,4 +6,5 @@
   color: var(--blw-gray100);
   background: var(--header-gradient);
   height: 3rem;
+  min-height: 0rem;
 }

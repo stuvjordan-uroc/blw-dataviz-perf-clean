@@ -1,0 +1,21 @@
+#root height 100vh, overflow hidden, flex, flex-direction column
+children:
+ .app-header height 3rem,
+ .app flex-grow 1, overflow-y: hidden, flex, flex-direction column
+ children:
+   .characteristic-picker height: auto, flex-grow 0
+   .viz-tabs-root flex-grow 1fr, overflow hidden, flex, flex-direction column  **NOTE flex-grow 1fr gets overridden...by what unknown**
+   children:
+     .viz-tabs-list flex-grow 0
+     .viz-tab-content 
+     .viz-tab-content  display flex flex-grow 1
+      children:
+        .viz-root display flex, overflow hidden flex-grow 1
+        children:
+          .viz-header flex grow 0
+          group (not a class a role)
+          .canvas-container flex grow 1
+          .viz-legend-root
+
+
+Let's try to make .viz-root-scroll, with the .viz-header sticky

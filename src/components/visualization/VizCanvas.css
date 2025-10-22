@@ -1,9 +1,10 @@
 .canvas-container {
   width: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: visible;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+  flex-grow: 1;
 }
