@@ -255,8 +255,9 @@ export default defineConfig({
     generateCirclePNGs(),
     react(),
     legacy({
-      targets: ["defaults", "not IE 11", "safari >=10"],
+      targets: ["defaults", "not IE 11", "safari >=10", "ios >=10"],
       additionalLegacyPolyfills: ["regenerator-runtime/runtime"],
+      modernPolyfills: true,
     })
   ],
 })

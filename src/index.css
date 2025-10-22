@@ -112,16 +112,28 @@
   font-display: swap;
 }
 
+/* Dynamic viewport height support for mobile browsers */
+html {
+  --vh: 1vh;
+}
+
 /* Prevent any page scrolling */
 html,
 body {
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   margin: 0;
   overflow: hidden;
   font-family: 'Jost', sans-serif;
   font-size: 14pt;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* iOS Safari specific fixes */
+  -webkit-overflow-scrolling: touch;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
 @media (width <=600px) {
@@ -129,17 +141,36 @@ body {
   html,
   body {
     font-size: 10pt;
+    /* Additional mobile fixes */
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+
+  #root {
+    /* Ensure no unwanted margins on mobile */
+    margin: 0;
+    padding: 0;
+    /* Force hardware acceleration */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 #root {
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100vw;
+  max-height: 100vh;
+  max-height: calc(var(--vh, 1vh) * 100);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* overflow: hidden;  -- handled above */
   background: var(--app-gradient);
   position: relative;
   color: var(--blw-gray200);
+  /* Mobile Safari flexbox fixes */
+  flex-shrink: 0;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
