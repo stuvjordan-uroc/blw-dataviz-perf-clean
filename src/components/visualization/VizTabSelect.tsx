@@ -25,6 +25,7 @@ export function VizTabSelect({
         }
       }}
       className="viz-tabs-root"
+      id="viz-tabs-root"
     >
       <Tabs.List className="viz-tabs-list">
         {["imp", "perf"].map((vt) => (

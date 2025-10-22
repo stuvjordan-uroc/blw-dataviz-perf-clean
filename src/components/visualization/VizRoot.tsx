@@ -2,6 +2,7 @@
 import "./VizRoot.css";
 //hooks
 import { useState } from "react";
+import { createPortal } from "react-dom";
 //types
 import type { ReactElement } from "react";
 import type { VizTab } from "../Viz";
@@ -10,6 +11,7 @@ import VizHeader from "./VizHeader";
 import VizControls from "./VizControls";
 import VizCanvas from "./VizCanvas";
 import VizLegend from "./VizLegend";
+import VizLegendHardCoded from "./VizLegendHardCoded";
 
 export type RequestedSplit =
   | {
@@ -47,6 +49,10 @@ export function VizRoot({
 
   //show legend
   const [showLegend, setShowLegend] = useState<boolean>(false);
+
+  //target container for legend
+  const vtr = document.getElementById("viz-tabs-root");
+
   return (
     <div className="viz-root">
       <VizHeader vizTab={vizTab} />
@@ -55,6 +61,8 @@ export function VizRoot({
         setRequestedSplit={setRequestedSplit}
         responsesExpanded={responsesExpanded}
         setResponsesExpanded={setResponsesExpanded}
+        showLegend={showLegend}
+        setShowLegend={setShowLegend}
       />
       <VizCanvas
         vizTab={vizTab}
@@ -62,11 +70,17 @@ export function VizRoot({
         requestedSplit={requestedSplit}
         responsesExpanded={responsesExpanded}
       />
-      <VizLegend
-        requestedSplit={requestedSplit}
-        responsesExpanded={responsesExpanded}
-        vizTab={vizTab}
-      />
+      {showLegend &&
+        vizTab === activeVizTab &&
+        createPortal(
+          <VizLegendHardCoded
+            requestedSplit={requestedSplit}
+            responsesExpanded={responsesExpanded}
+            vizTab={vizTab}
+            key={vizTab}
+          />,
+          vtr ? vtr : document.body
+        )}
     </div>
   );
 }

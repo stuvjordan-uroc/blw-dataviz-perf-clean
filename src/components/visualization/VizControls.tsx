@@ -26,6 +26,15 @@ We're going to use TOGGLE BUTTONs for everything.  The labels will be:
 Radix-UI's Toggle component is a TOGGLE BUTTON
 */
 
+interface VizControlsProps {
+  requestedSplit: RequestedSplit;
+  setRequestedSplit: Dispatch<SetStateAction<RequestedSplit>>;
+  responsesExpanded: ResponsesExpanded;
+  setResponsesExpanded: Dispatch<SetStateAction<ResponsesExpanded>>;
+  showLegend: boolean;
+  setShowLegend: Dispatch<SetStateAction<boolean>>;
+}
+
 function listOfSplitsOn(requestedSplit: RequestedSplit): string[] {
   return Object.entries(requestedSplit)
     .filter(([_splitDim, split]) => split) //get the splits that are "on"
@@ -37,12 +46,9 @@ export default function VizControls({
   setRequestedSplit,
   responsesExpanded,
   setResponsesExpanded,
-}: {
-  requestedSplit: RequestedSplit;
-  setRequestedSplit: Dispatch<SetStateAction<RequestedSplit>>;
-  responsesExpanded: ResponsesExpanded;
-  setResponsesExpanded: Dispatch<SetStateAction<ResponsesExpanded>>;
-}): ReactElement {
+  showLegend,
+  setShowLegend,
+}: VizControlsProps): ReactElement {
   return (
     <div className="viz-controls-container">
       <ToggleGroup.Root
@@ -105,10 +111,14 @@ export default function VizControls({
           collapse responses
         </Toggle.Root>
         <Toggle.Root
+          pressed={showLegend}
+          onPressedChange={(newPressed) => {
+            setShowLegend(newPressed ? true : false);
+          }}
           disabled={!requestedSplit.response}
           className="toggle-split"
         >
-          show legend
+          legend
         </Toggle.Root>
       </div>
     </div>

@@ -34,6 +34,31 @@ export default function VizLegend({
           string,
           string[]
         ][]);
+  if (characteristicData.state === "ready" && characteristicData.data) {
+    responses.forEach((response, responseIdx) => {
+      const imagesAtResponse = characteristicData
+        .data!.images.filter(
+          (image) =>
+            image.responsesExpanded === responsesExpanded &&
+            image.responseIndex === responseIdx &&
+            image.breakpoint === breakpoint
+        )
+        .map(
+          (image) =>
+            "circles/xLarge/" +
+            image.party +
+            "/" +
+            responsesExpanded +
+            "/" +
+            responseIdx.toString() +
+            ".png"
+        )
+        .map((image) => ({
+          party: image.party,
+        }));
+    });
+  }
+
   const responsesWithImages: {
     response: [string, string[]];
     images: Image[];
